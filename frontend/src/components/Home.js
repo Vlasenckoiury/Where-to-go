@@ -24,12 +24,11 @@ const Home = () => {
         </div>
       ) : (
         <div>
-          <p>Войти</p>
+          <p>Пожалуйста авторизуйтесь</p>
           <button
             className="btn btn-primary me-2"
             onClick={() => navigate("/login")}
-          >
-            Login
+          >Войти
           </button>
           <button className="btn btn-secondary" onClick={() => navigate("/register")}>
             Регистрация
