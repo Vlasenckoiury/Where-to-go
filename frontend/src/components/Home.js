@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "./Logout";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const Home = () => {
           <button className="btn btn-secondary" onClick={() => navigate("/register")}>
             Регистрация
           </button>
+          <p>You are logged in!</p>
+          <LogoutButton />
         </div>
       )}
     </div>
