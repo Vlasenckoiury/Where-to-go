@@ -1,43 +1,68 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import LogoutButton from "./Logout";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const Home = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("access_token");
 
+  // Проверка аутентификации при загрузке компонента
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  // Функция выхода из системы
   const handleLogout = () => {
-    // Удаляем токены из localStorage
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    navigate("/login"); // Перенаправляем на страницу логина
+    setIsAuthenticated(false);
+    navigate("/login");
   };
 
   return (
     <div className="container mt-5">
-      <h1>Это домашняя страница</h1>
-      {accessToken ? (
-        <div>
-          <p>Войдите в систему</p>
-          <button className="btn btn-danger" onClick={handleLogout}>
-            Logout
-          </button>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
+            MyApp
+          </Link>
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav ms-auto">
+              {isAuthenticated ? (
+                <li className="nav-item">
+                  <button className="btn btn-danger" onClick={handleLogout}>
+                    Выйти
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">
+                      Войти
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/register">
+                      Регистраци
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
         </div>
-      ) : (
-        <div>
-          <p>Пожалуйста авторизуйтесь</p>
-          <button
-            className="btn btn-primary me-2"
-            onClick={() => navigate("/login")}
-          >Войти
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigate("/register")}>
-            Регистрация
-          </button>
-          <p>You are logged in!</p>
-          <LogoutButton />
-        </div>
-      )}
+      </nav>
+      <div className="mt-4">
+        {isAuthenticated ? (
+          <h1>Добро пожаловать</h1>
+        ) : (
+          <h1>Войдите или зарегистрируйтесь в системе!</h1>
+        )}
+      </div>
     </div>
   );
 };
