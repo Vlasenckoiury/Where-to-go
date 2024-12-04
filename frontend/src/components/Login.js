@@ -32,6 +32,11 @@ const Login = () => {
 
   return (
     <div className="container">
+      <div class="box-3">
+        <div class="btn btn-three" onClick={() => navigate("/")}>
+        <span>Вернуться на главную страницу</span>
+        </div>
+      </div>
       <h2>Войти</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleLogin}>
