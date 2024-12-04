@@ -1,0 +1,54 @@
+.container {
+  padding-top: 100px;
+  padding-right: 80px;
+  padding-left: 80px;
+  border-radius: 4%;
+  background-color: #ffffff;
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  text-align: center;
+}
+
+#password {
+  border: 1px solid #007bff;
+}
+
+#username {
+  border: 1px solid #007bff;
+}
+
+.mb-3 {
+  width: 476px;
+  height: 39px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+  margin-left: 40px;
+  margin-right: 40px;
+  border-radius: 4%;
+}
+
+.btn-primary {
+  width: 76px;
+  border-top-width: 1px;
+  padding-top: 6px;
+  margin-top: 45px;
+  margin-left: 250px;
+  margin-right: 200px;
+  text-align: center 
+}
+
+form {
+  width: 580px;
+  padding-left: 6px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 6px;
+  color: rgb(0, 0, 0);
+  margin: auto;
+  font-size: 20px;
+}
