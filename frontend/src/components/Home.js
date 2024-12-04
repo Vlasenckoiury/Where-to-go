@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,7 +29,7 @@ const Home = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            MyApp
+            Where to go
           </Link>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav ms-auto">
@@ -47,7 +48,7 @@ const Home = () => {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/register">
-                      Регистраци
+                      Регистрация
                     </Link>
                   </li>
                 </>
