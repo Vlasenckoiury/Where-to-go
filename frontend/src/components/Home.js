@@ -26,7 +26,7 @@ const Home = () => {
 
   return (
     <div className="container mt-5">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
             Where to go
