@@ -1,12 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext as _
-from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractUser):
     pass
-
 
 
 class City(models.Model):
@@ -23,47 +21,34 @@ class City(models.Model):
 
 
 class Category(models.Model):
-    CAFE = 'CAFE'
-    ENTERTAINMENT = 'ENTERTAINMENT'
+    name = models.CharField(_('Категория'),max_length=100)
 
-    CATEGORY_CHOICES = [
-        (CAFE, 'Кафе'),
-        (ENTERTAINMENT, 'Развлечения'),
-    ]
-
-    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES, unique=True)
+    class Meta:
+        app_label = "backend"
+        ordering = ('name',)
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.get_name_display()
+        return self.name
 
 
 class Subcategory(models.Model):
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="subcategories")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="subcategories")
-    
-    # Поля для категории "Кафе"
-    name = models.CharField(max_length=100, blank=True, null=True)  # Имя кафе
-    working_hours = models.CharField(max_length=100, blank=True, null=True)  # Режим работы
-    
-    # Поля для категории "Развлечения"
-    phone = models.CharField(max_length=15, blank=True, null=True)  # Телефон
-    address = models.CharField(max_length=255, blank=True, null=True)  # Адрес
+    city = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name=_('Город'))
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=_('Категория'))
+    name = models.CharField(_('Название'), max_length=100, null=True, blank=True)  
+    address = models.CharField(_('Адрес'),max_length=255, blank=True, null=True)  
+    phone = models.CharField(_('Телефон'),max_length=20, blank=True, null=True)   
+    description = models.TextField(_('Описание'),blank=True, null=True)  
+    image = models.ImageField(_('Изображение'),upload_to='images/', blank=True, null=True)
+    opening_time = models.TimeField(_('Время октрытия'),null=True, blank=True)
+    closing_time = models.TimeField(_('Время закрытия'),null=True, blank=True)
+    working_days = models.CharField(_('Дни работы'),max_length=255, blank=True, null=True)
 
-    def clean(self):
-        # Проверка для категории "Кафе"
-        if self.category.name == Category.CAFE:
-            if not self.name or not self.working_hours:
-                raise ValidationError("Для категории 'Кафе' необходимо указать имя и режим работы.")
-            if self.phone or self.address:
-                raise ValidationError("Для категории 'Кафе' не нужно указывать телефон или адрес.")
-
-        # Проверка для категории "Развлечения"
-        if self.category.name == Category.ENTERTAINMENT:
-            if not self.phone or not self.address:
-                raise ValidationError("Для категории 'Развлечения' необходимо указать телефон и адрес.")
-            if self.name or self.working_hours:
-                raise ValidationError("Для категории 'Развлечения' не нужно указывать имя или режим работы.")
+    class Meta:
+        app_label = "backend"
+        verbose_name = 'Добавить объект'
+        verbose_name_plural = 'Добавить объекты'  
 
     def __str__(self):
-        return f"{self.category.get_name_display()}: {self.city.name}"
-
+        return f"{self.city} - {self.category} - {self.name}"

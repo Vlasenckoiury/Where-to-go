@@ -22,3 +22,6 @@ class LogoutView(generics.GenericAPIView):
             return Response(status=205)
         except Exception as e:
             return Response(status=400)
+
+
+

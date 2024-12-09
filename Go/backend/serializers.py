@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, City, Category, Subcategory
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -26,3 +26,18 @@ class RegisterSerializer(serializers.ModelSerializer):
         refresh = RefreshToken.for_user(user)
         user.token = str(refresh.access_token)
         return user
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ['id', 'name']
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']
+
+class SubcategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subcategory
+        fields = ['id', 'city', 'category', 'name', 'address', 'phone', 'opening_time', 'closing_time', 'working_days']
