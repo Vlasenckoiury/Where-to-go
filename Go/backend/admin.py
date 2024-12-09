@@ -7,9 +7,37 @@ admin.site.register(CustomUser)
 
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'get_city')
+    list_display = ('name', 'category', 'get_city', 'get_working_days', 'specific_date')
     search_fields = ('name', 'category__name')
     filter_horizontal = ('city',)
+    fieldsets = (
+        (None, {
+            'fields': ('city', 'category', 'name', 'address', 'phone', 'description', 'image', 'specific_date')
+        }),
+        ('Время работы', {
+            'fields': ('opening_time', 'closing_time', 
+                       'lunch_start', 'lunch_end')
+        }),
+        ('Дни работы', {
+            'fields': (
+                'is_monday', 'is_tuesday', 'is_wednesday', 
+                'is_thursday', 'is_friday', 'is_saturday', 'is_sunday'
+            )
+        }),
+    )
+
+    def get_working_days(self, obj):
+        days = []
+        days_map = {
+            'Пн': obj.is_monday, 'Вт': obj.is_tuesday, 'Ср': obj.is_wednesday,
+            'Чт': obj.is_thursday, 'Пт': obj.is_friday, 'Сб': obj.is_saturday,
+            'Вс': obj.is_sunday
+        }
+        for day, active in days_map.items():
+            if active:
+                days.append(day)
+        return ", ".join(days) or "Не указано"
+    get_working_days.short_description = 'Дни работы'
 
     def get_city(self, obj):
         if obj.city.exists():

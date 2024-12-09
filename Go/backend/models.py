@@ -43,7 +43,16 @@ class Subcategory(models.Model):
     image = models.ImageField(_('Изображение'), upload_to='images/', blank=True, null=True)
     opening_time = models.TimeField(_('Время открытия'), null=True, blank=True, help_text='Пример ввода времени: 10:00:00')
     closing_time = models.TimeField(_('Время закрытия'), null=True, blank=True, help_text='Пример ввода времени: 10:00:00')
-    working_days = models.CharField(_('Дни работы'), max_length=255, blank=True, null=True)
+    lunch_start = models.TimeField(_('Начало обеда'), null=True, blank=True)
+    lunch_end = models.TimeField(_('Конец обеда'), null=True, blank=True)
+    is_monday = models.BooleanField(_('Понедельник'), default=False)
+    is_tuesday = models.BooleanField(_('Вторник'), default=False)
+    is_wednesday = models.BooleanField(_('Среда'), default=False)
+    is_thursday = models.BooleanField(_('Четверг'), default=False)
+    is_friday = models.BooleanField(_('Пятница'), default=False)
+    is_saturday = models.BooleanField(_('Суббота'), default=False)
+    is_sunday = models.BooleanField(_('Воскресенье'), default=False)
+    specific_date = models.DateField(_('Определенная дата'), null=True, blank=True)
 
     class Meta:
         app_label = "backend"
