@@ -1,17 +1,21 @@
 from django.contrib import admin
 from .models import CustomUser, City, Category, Subcategory
-from .forms import SubcategoryForm
-
 
 
 admin.site.register(CustomUser)
 
 
+@admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    form = SubcategoryForm
-    list_display = ['city', 'category', 'name', 'address', 'phone', 'opening_time', 'closing_time', 'working_days']
-    list_filter = ['category', 'city']
-    search_fields = ['name', 'address']
+    list_display = ('name', 'category', 'get_city')
+    search_fields = ('name', 'category__name')
+    filter_horizontal = ('city',)
+
+    def get_city(self, obj):
+        if obj.city.exists():
+            return ", ".join([city.name for city in obj.city.all()])
+        return "Все города"
+    get_city.short_description = "Города"
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
@@ -21,8 +25,3 @@ class CityAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
 
-@admin.register(Subcategory)
-class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ['city', 'category', 'name', 'address', 'phone', 'opening_time', 'closing_time', 'working_days']
-    list_filter = ['category', 'city']
-    search_fields = ['name', 'address']

@@ -1,7 +1,8 @@
 from django import forms
 from .models import Subcategory
 
-class SubcategoryForm(forms.ModelForm):
+
+class SubcategorydayForm(forms.ModelForm):
     # Выбор рабочих дней
     days_of_week = [
         ('Mon', 'Понед.'),
@@ -14,7 +15,7 @@ class SubcategoryForm(forms.ModelForm):
     ]
     
     working_days = forms.MultipleChoiceField(
-        required=False,
+        required=True,
         widget=forms.CheckboxSelectMultiple,
         choices=days_of_week,
         label="Дни недели",
