@@ -1,8 +1,9 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import *
-from .models import CustomUser
+from .serializers import RegisterSerializer, SubcategorySerializer
+from .models import CustomUser, Subcategory
+from rest_framework.views import APIView
 
 
 class RegisterView(generics.CreateAPIView):
@@ -24,4 +25,16 @@ class LogoutView(generics.GenericAPIView):
             return Response(status=400)
 
 
+class SubcategoryListView(APIView):
+    def get(self, request):
+        subcategories = Subcategory.objects.all()
+        serializer = SubcategorySerializer(subcategories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = SubcategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

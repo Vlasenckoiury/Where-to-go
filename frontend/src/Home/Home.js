@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import SubcategoryList from "../category/SubcategoryList";
 import "./Home.css";
 
 const Home = () => {
@@ -59,7 +60,7 @@ const Home = () => {
       </nav>
       <div className="mt-4">
         {isAuthenticated ? (
-          <h1>Добро пожаловать</h1>
+          <SubcategoryList />
         ) : (
           <h1>Войдите или зарегистрируйтесь в системе!</h1>
         )}

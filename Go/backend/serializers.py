@@ -40,4 +40,4 @@ class CategorySerializer(serializers.ModelSerializer):
 class SubcategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Subcategory
-        fields = ['id', 'city', 'category', 'name', 'address', 'phone', 'opening_time', 'closing_time', 'working_days']
+        fields = '__all__'
