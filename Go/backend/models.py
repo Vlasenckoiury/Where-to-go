@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
@@ -62,5 +63,21 @@ class Subcategory(models.Model):
     def __str__(self):
         cities = ', '.join([city.name for city in self.city.all()]) if self.city.exists() else 'Все города'
         return f"{cities} - {self.category} - {self.name}"
-    
-    
+
+    def clean(self):
+            # Проверка: если указана конкретная дата, дни недели должны быть пустыми
+            if self.specific_date:
+                if (
+                    self.is_monday or self.is_tuesday or self.is_wednesday or
+                    self.is_thursday or self.is_friday or self.is_saturday or self.is_sunday
+                ):
+                    raise ValidationError(_('Если указана конкретная дата, нельзя выбирать дни недели.'))
+            
+            # Проверка: если указаны дни недели, конкретная дата должна быть пустой
+            if (
+                self.is_monday or self.is_tuesday or self.is_wednesday or
+                self.is_thursday or self.is_friday or self.is_saturday or self.is_sunday
+            ):
+                if self.specific_date:
+                    raise ValidationError(_('Если выбраны дни недели, конкретная дата должна быть пустой.'))
+          

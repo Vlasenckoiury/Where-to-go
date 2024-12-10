@@ -29,12 +29,19 @@ const SubcategoryList = () => {
         {subcategories.map((subcategory) => (
           <li key={subcategory.id}>
             <h3>{subcategory.name || "Без названия"}</h3>
-            <p>Города: {subcategory.city.map((city) => city.name).join(", ")}</p>
-            <p>Категория: {subcategory.category}</p>
+            <p>
+              Города:{" "}
+              {subcategory.city.length > 0
+                ? subcategory.city.map((city) => city.name).join(", ")
+                : "Все города"}
+            </p>
+            <p>Категория: {subcategory.category.name}</p>
             <p>Адрес: {subcategory.address}</p>
             <p>Телефон: {subcategory.phone}</p>
+            <p>Описание: {subcategory.description}</p>
             <p>Время открытия: {subcategory.opening_time}</p>
             <p>Время закрытия: {subcategory.closing_time}</p>
+            <p>Обед с: {subcategory.lunch_start} До: {subcategory.launch_end}</p>
             <p>Дни работы: {formatWorkingDays(subcategory)}</p>
           </li>
         ))}

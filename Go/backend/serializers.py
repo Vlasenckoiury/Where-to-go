@@ -38,6 +38,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class SubcategorySerializer(serializers.ModelSerializer):
+    city = CitySerializer(many=True)  # Если  поле ManyToManyField 
+    category = CategorySerializer()  # Если поле ForeignKey 
+
     class Meta:
         model = Subcategory
         fields = '__all__'
