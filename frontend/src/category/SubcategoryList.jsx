@@ -66,7 +66,6 @@ const SubcategoryList = () => {
           </li>
         ))}
       </ul>
-      
       <div>
         {previousPage && <button onClick={handlePreviousPage}>Предыдущая</button>}
         {nextPage && <button onClick={handleNextPage}>Следующая</button>}
