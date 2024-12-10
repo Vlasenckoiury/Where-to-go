@@ -4,6 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, SubcategorySerializer
 from .models import CustomUser, Subcategory
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 
 class RegisterView(generics.CreateAPIView):
@@ -26,10 +27,18 @@ class LogoutView(generics.GenericAPIView):
 
 
 class SubcategoryListView(APIView):
-    def get(self, request):
-        subcategories = Subcategory.objects.all()
-        serializer = SubcategorySerializer(subcategories, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    pagination_class = PageNumberPagination  # Указываем класс пагинации
+
+    def get(self, request, *args, **kwargs):
+        queryset = Subcategory.objects.all()
+        paginator = self.pagination_class()  # Создаем экземпляр пагинатора
+        page = paginator.paginate_queryset(queryset, request)  # Правильное использование пагинации
+
+        if page is not None:
+            return paginator.get_paginated_response(SubcategorySerializer(page, many=True).data)
+        
+        # Если пагинации нет (например, запрос всех элементов), возвращаем все элементы
+        return Response(SubcategorySerializer(queryset, many=True).data)
 
     def post(self, request):
         serializer = SubcategorySerializer(data=request.data)
@@ -37,4 +46,3 @@ class SubcategoryListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-

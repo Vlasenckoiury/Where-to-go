@@ -5,19 +5,39 @@ const SubcategoryList = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [nextPage, setNextPage] = useState(null);
+  const [previousPage, setPreviousPage] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/subcategories/")
-      .then((response) => {
-        setSubcategories(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Ошибка при загрузке подкатегорий");
-        setLoading(false);
-      });
+    // Получаем данные с первой страницы
+    fetchData("http://localhost:8000/api/subcategories/?page=1");
   }, []);
+
+  const fetchData = async (url) => {
+    setLoading(true);
+    try {
+      const response = await axios.get(url);
+      setSubcategories(response.data.results);  // Сохраняем данные
+      setNextPage(response.data.next);  // Устанавливаем URL для следующей страницы
+      setPreviousPage(response.data.previous);  // Устанавливаем URL для предыдущей страницы
+      setLoading(false);
+    } catch (err) {
+      setError("Ошибка при загрузке подкатегорий");
+      setLoading(false);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (nextPage) {
+      fetchData(nextPage); // Переход на следующую страницу
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (previousPage) {
+      fetchData(previousPage); // Переход на предыдущую страницу
+    }
+  };
 
   if (loading) return <div>Загрузка...</div>;
   if (error) return <div>{error}</div>;
@@ -41,11 +61,16 @@ const SubcategoryList = () => {
             <p>Описание: {subcategory.description}</p>
             <p>Время открытия: {subcategory.opening_time}</p>
             <p>Время закрытия: {subcategory.closing_time}</p>
-            <p>Обед с: {subcategory.lunch_start} До: {subcategory.launch_end}</p>
+            <p>Обед с: {subcategory.lunch_start} До: {subcategory.lunch_end}</p>
             <p>Дни работы: {formatWorkingDays(subcategory)}</p>
           </li>
         ))}
       </ul>
+      
+      <div>
+        {previousPage && <button onClick={handlePreviousPage}>Предыдущая</button>}
+        {nextPage && <button onClick={handleNextPage}>Следующая</button>}
+      </div>
     </div>
   );
 };

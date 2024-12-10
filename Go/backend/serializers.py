@@ -41,6 +41,11 @@ class SubcategorySerializer(serializers.ModelSerializer):
     city = CitySerializer(many=True)  # Если  поле ManyToManyField 
     category = CategorySerializer()  # Если поле ForeignKey 
 
+    def validate(self, data):
+            instance = Subcategory(**data)
+            instance.full_clean()  # Вызывает метод clean() для проверки
+            return data
+
     class Meta:
         model = Subcategory
         fields = '__all__'
