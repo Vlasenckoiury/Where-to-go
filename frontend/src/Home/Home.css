@@ -2,7 +2,18 @@ body {
   padding-top: 70px; /* Отступ сверху для фиксации */
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Высота на весь экран */
+  width: 100%; /* На всю ширину */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Убираем прокрутку у главного контейнера */
+}
+
 #navbar {
+  flex: 0 0 auto;
   padding-left: 20px;
   padding-right: 20px;
   position: fixed;
@@ -10,8 +21,17 @@ body {
   left: 0;
   width: 100%;
   background-color: #f8f9fa; /* Цвет фона */
-  z-index: 1030; /* Уровень слоя (над остальными элементами) */
+  z-index: 1000; /* Уровень слоя (над остальными элементами) */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
   padding-bottom: 2px;
   border-bottom: 2px solid #007bff
+}
+
+.content-container {
+  flex: 1 1 auto; /* Растягивается */
+  overflow-y: auto; /* Вертикальная прокрутка */
+  overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+  padding: 20px;
+  background-color: #f8f9fa; /* Фон */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Тень */
 }

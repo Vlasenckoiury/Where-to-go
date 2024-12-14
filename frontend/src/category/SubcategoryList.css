@@ -1,0 +1,66 @@
+/* Основной контейнер */
+.subcategory-list-container {
+  max-width: 100%;
+  margin: 0 auto; /* Центрует блок */
+  padding: 20px;
+}
+
+/* Список подкатегорий */
+.subcategory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Элемент подкатегории */
+.subcategory-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.3s;
+}
+
+.subcategory-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Контейнер для пагинации */
+.pagination-container {
+  display: flex;
+  justify-content: center; /* Центрируем кнопки */
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  gap: 10px;
+}
+
+/* Кнопки пагинации */
+.pagination-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.pagination-button:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+/* Информация о страницах */
+.pagination-info {
+  font-size: 16px;
+  color: #333;
+}

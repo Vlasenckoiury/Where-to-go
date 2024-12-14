@@ -7,9 +7,8 @@ admin.site.register(CustomUser)
 
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'get_city', 'get_working_days', 'specific_date')
+    list_display = ('name', 'category', 'get_working_days', 'specific_date')
     search_fields = ('name', 'category__name')
-    filter_horizontal = ('city',)
     fieldsets = (
         (None, {
             'fields': ('city', 'category', 'name', 'address', 'phone', 'description', 'image', 'specific_date')
@@ -39,11 +38,6 @@ class SubcategoryAdmin(admin.ModelAdmin):
         return ", ".join(days) or "Не указано"
     get_working_days.short_description = 'Дни работы'
 
-    def get_city(self, obj):
-        if obj.city.exists():
-            return ", ".join([city.name for city in obj.city.all()])
-        return "Все города"
-    get_city.short_description = "Города"
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):

@@ -35,7 +35,7 @@ class Category(models.Model):
 
 
 class Subcategory(models.Model):
-    city = models.ManyToManyField(City, related_name='cities', verbose_name=_('Город'))
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='cities', verbose_name=_('Город'), blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category', verbose_name=_('Категория'), blank=True, null=True)
     name = models.CharField(_('Название'), max_length=100, null=True, blank=True)
     address = models.CharField(_('Адрес'), max_length=255, blank=True, null=True)
@@ -61,8 +61,7 @@ class Subcategory(models.Model):
         verbose_name_plural = 'Добавить объекты'
 
     def __str__(self):
-        cities = ', '.join([city.name for city in self.city.all()]) if self.city.exists() else 'Все города'
-        return f"{cities} - {self.category} - {self.name}"
+        return f"{self.city} - {self.category} - {self.name}"
 
     def clean(self):
             # Проверка: если указана конкретная дата, дни недели должны быть пустыми

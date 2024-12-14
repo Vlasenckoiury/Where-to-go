@@ -26,46 +26,46 @@ const Home = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
-            Where to go
-          </Link>
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav ms-auto">
-              {isAuthenticated ? (
+    <div className="main-container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+          Where to go
+        </Link>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav ms-auto">
+            {isAuthenticated ? (
+              <li className="nav-item">
+                <button className="btn btn-danger" onClick={handleLogout}>
+                  Выйти
+                </button>
+              </li>
+            ) : (
+              <>
                 <li className="nav-item">
-                  <button className="btn btn-danger" onClick={handleLogout}>
-                    Выйти
-                  </button>
+                  <Link className="nav-link" to="/login">
+                    Войти
+                  </Link>
                 </li>
-              ) : (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/login">
-                      Войти
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/register">
-                      Регистрация
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/register">
+                    Регистрация
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
-      </nav>
-      <div className="mt-4">
-        {isAuthenticated ? (
-          <SubcategoryList />
-        ) : (
-          <h1>Войдите или зарегистрируйтесь в системе!</h1>
-        )}
       </div>
+    </nav>
+    <div className="content-container">
+      {isAuthenticated ? (
+        <SubcategoryList />
+      ) : (
+        <h1>Войдите или зарегистрируйтесь в системе!</h1>
+      )}
     </div>
+  </div>
   );
 };
 

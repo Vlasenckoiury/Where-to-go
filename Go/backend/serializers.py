@@ -38,7 +38,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    city = CitySerializer(many=True)  # Если  поле ManyToManyField 
+    city = CitySerializer()  # Если  поле ManyToManyField 
     category = CategorySerializer()  # Если поле ForeignKey 
 
     def validate(self, data):
