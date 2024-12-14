@@ -75,8 +75,8 @@ const SubcategoryList = () => {
         {subcategories.map((subcategory) => (
           <li key={subcategory.id} className="subcategory-item">
             <h3>{subcategory.name || "Без названия"}</h3>
-            <p>Город: {subcategory.city_name}</p>
-            <p>Категория: {subcategory.category.name}</p>
+            <p>Город: {subcategory.city.name || "Не указан"}</p>
+            <p>Категория: {subcategory.category.name || "Не указан"}</p>
             <p>Адрес: {subcategory.address}</p>
             <p>Телефон: {subcategory.phone}</p>
             <p>Описание: {subcategory.description}</p>
