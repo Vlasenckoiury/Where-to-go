@@ -8,17 +8,41 @@ class CustomUser(AbstractUser):
     pass
 
 
-class City(models.Model):
-    name = models.CharField(_('Город'), max_length=100, unique=True)
+class Country(models.Model):
+    name = models.CharField(_("Страна"), max_length=100)
 
     class Meta:
-        app_label = "backend"
-        ordering = ('name',)
-        verbose_name = 'Город'
-        verbose_name_plural = 'Города'
+        verbose_name = _("Страна")
+        verbose_name_plural = _("Страны")
 
     def __str__(self):
         return self.name
+
+
+class Region(models.Model):
+    name = models.CharField(_("Область"), max_length=100)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="regions", verbose_name=_("Страна"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Область")
+        verbose_name_plural = _("Области")
+
+    def __str__(self):
+        return f"{self.name} ({self.country.name})"
+
+
+class City(models.Model):
+    name = models.CharField(_("Город"), max_length=100)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name="cities", verbose_name=_("Область"), null=True, blank=True)
+    lat = models.FloatField(_("Широта"), blank=True, null=True)
+    lng = models.FloatField(_("Долгота"), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("Город")
+        verbose_name_plural = _("Города")
+
+    def __str__(self):
+        return f"{self.name} ({self.region.name})"
 
 
 class Category(models.Model):

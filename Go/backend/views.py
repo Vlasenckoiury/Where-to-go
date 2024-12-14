@@ -1,10 +1,15 @@
+from rest_framework import viewsets
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, SubcategorySerializer
-from .models import CustomUser, Subcategory
-from rest_framework.views import APIView
-from rest_framework.pagination import PageNumberPagination
+from .serializers import (
+    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer
+)
+from .models import CustomUser, Subcategory, Country, Region, City
 
 
 class RegisterView(generics.CreateAPIView):
@@ -26,23 +31,23 @@ class LogoutView(generics.GenericAPIView):
             return Response(status=400)
 
 
-class SubcategoryListView(APIView):
-    pagination_class = PageNumberPagination  # Указываем класс пагинации
+class CountryViewSet(viewsets.ModelViewSet):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
 
-    def get(self, request, *args, **kwargs):
-        queryset = Subcategory.objects.all()
-        paginator = self.pagination_class()  # Создаем экземпляр пагинатора
-        page = paginator.paginate_queryset(queryset, request)  # Правильное использование пагинации
 
-        if page is not None:
-            return paginator.get_paginated_response(SubcategorySerializer(page, many=True).data)
-        
-        # Если пагинации нет (например, запрос всех элементов), возвращаем все элементы
-        return Response(SubcategorySerializer(queryset, many=True).data)
+class RegionViewSet(viewsets.ModelViewSet):
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
 
-    def post(self, request):
-        serializer = SubcategorySerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CityViewSet(viewsets.ModelViewSet):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
+
+
+class SubcategoryViewSet(viewsets.ModelViewSet):
+    queryset = Subcategory.objects.all()
+    serializer_class = SubcategorySerializer
+    pagination_class = PageNumberPagination
+

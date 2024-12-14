@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, City, Category, Subcategory
+from .models import CustomUser, City, Category, Subcategory, Region, Country
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -27,19 +27,33 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.token = str(refresh.access_token)
         return user
 
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = '__all__'
+
+class RegionSerializer(serializers.ModelSerializer):
+    country = CountrySerializer()
+    
+    class Meta:
+        model = Region
+        fields = '__all__'
+
 class CitySerializer(serializers.ModelSerializer):
+    region = RegionSerializer()
+
     class Meta:
         model = City
-        fields = ['id', 'name']
+        fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name']
+        fields = '__all__'
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    city = CitySerializer()  # Если  поле ManyToManyField 
-    category = CategorySerializer()  # Если поле ForeignKey 
+    city = CitySerializer()  
+    category = CategorySerializer()  
 
     def validate(self, data):
             instance = Subcategory(**data)

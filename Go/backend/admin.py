@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, City, Category, Subcategory
+from .models import CustomUser, City, Category, Subcategory, Region, Country
 
 
 admin.site.register(CustomUser)
@@ -41,6 +41,14 @@ class SubcategoryAdmin(admin.ModelAdmin):
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
+    list_display = ['name', 'region']
+
+@admin.register(Region)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ['name', 'country']
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 @admin.register(Category)

@@ -144,3 +144,6 @@ AUTH_USER_MODEL = 'backend.CustomUser'
 STATICFILES_DIRS = [
     BASE_DIR / "backend/static",
 ]
+
+MEDIA_URL = '/media/'  # URL для доступа к медиафайлам
+MEDIA_ROOT = os.path.join(BASE_DIR, 'backend/media')
