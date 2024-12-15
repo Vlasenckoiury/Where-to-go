@@ -15,11 +15,11 @@ const SubCategoryFilter = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Загрузка стран и категорий при инициализации
+    // Загрузка стран при инициализации
     axios.get("http://localhost:8000/api/countries/").then((response) => {
       setCountries(response.data.results || []);
     });
-
+    // Загрузка категорий при инициализации
     axios.get("http://localhost:8000/api/category/").then((response) => {
       setCategories(response.data.results || []);
     });
@@ -27,8 +27,8 @@ const SubCategoryFilter = () => {
 
   const handleCountryChange = (countryId) => {
     setSelectedCountry(countryId);
-    setSelectedRegion("");
-    setSelectedCity("");
+    setSelectedRegion("");  // Сбросить регион при смене страны
+    setSelectedCity("");  // Сбросить город при смене области
     setRegions([]);
     setCities([]);
 
@@ -43,7 +43,7 @@ const SubCategoryFilter = () => {
 
   const handleRegionChange = (regionId) => {
     setSelectedRegion(regionId);
-    setSelectedCity("");
+    setSelectedCity("");  // Сбросить город при смене области
     setCities([]);
 
     if (regionId) {
@@ -61,8 +61,8 @@ const SubCategoryFilter = () => {
 
     const params = {};
     if (selectedCountry) params.country = selectedCountry;
-    if (selectedRegion) params.region = selectedRegion;
-    if (selectedCity) params.city = selectedCity;
+    if (selectedRegion) params.region = selectedRegion; 
+    if (selectedCity) params.city = selectedCity;  
     if (selectedCategory) params.category = selectedCategory;
 
     axios
@@ -77,6 +77,31 @@ const SubCategoryFilter = () => {
       });
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year} г.`; // Возвращаем дату в формате "день.месяц.год г."
+  };
+
+  const formatWorkingDays = (subcategory) => {
+  const days = [
+    { label: "Понедельник", key: "is_monday" },
+    { label: "Вторник", key: "is_tuesday" },
+    { label: "Среда", key: "is_wednesday" },
+    { label: "Четверг", key: "is_thursday" },
+    { label: "Пятница", key: "is_friday" },
+    { label: "Суббота", key: "is_saturday" },
+    { label: "Воскресенье", key: "is_sunday" },
+  ];
+
+    return days
+      .filter((day) => subcategory[day.key])
+      .map((day) => day.label)
+      .join(", ") || "Не указано";
+  };
+
   return (
     <div>
       <h2>Фильтровать подкатегории</h2>
@@ -86,6 +111,7 @@ const SubCategoryFilter = () => {
         <select
           value={selectedCountry}
           onChange={(e) => handleCountryChange(e.target.value)}
+          id="country-select"
         >
           <option value="">Выберите страну</option>
           {countries.map((country) => (
@@ -95,13 +121,13 @@ const SubCategoryFilter = () => {
           ))}
         </select>
       </div>
-
       <div>
         <label>Область:</label>
         <select
           value={selectedRegion}
           onChange={(e) => handleRegionChange(e.target.value)}
           disabled={!selectedCountry || regions.length === 0}
+          id="region-select"
         >
           <option value="">Выберите область</option>
           {regions.map((region) => (
@@ -118,6 +144,7 @@ const SubCategoryFilter = () => {
           value={selectedCity}
           onChange={(e) => setSelectedCity(e.target.value)}
           disabled={!selectedRegion || cities.length === 0}
+          id="city-select"
         >
           <option value="">Выберите город</option>
           {cities.map((city) => (
@@ -133,6 +160,7 @@ const SubCategoryFilter = () => {
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
+          id="category-select"
         >
           <option value="">Выберите категорию</option>
           {categories.map((category) => (
@@ -143,7 +171,7 @@ const SubCategoryFilter = () => {
         </select>
       </div>
 
-      <button onClick={handleFilter}>Применить фильтры</button>
+      <button onClick={handleFilter} id="filter-button">Применить фильтры</button>
 
       {loading && <p>Загрузка...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -152,7 +180,23 @@ const SubCategoryFilter = () => {
         <h3>Подкатегории</h3>
         <ul>
           {subcategories.map((subcategory) => (
-            <li key={subcategory.id}>{subcategory.name}</li>
+            <li key={subcategory.id} className="subcategory-item">
+            <h3>{subcategory.name || "Без названия"}</h3>
+            <p>Город: {subcategory.city.name || "Не указан"}</p>
+            <p>Категория: {subcategory.category.name || "Не указан"}</p>
+            <p>Адрес: г.{subcategory.city.name || ""}, {subcategory.address|| "Не указан"}</p>
+            <p>Телефон: {subcategory.phone || "Не указан"}</p>
+            <p>Описание: {subcategory.description || "Не указано"}</p>
+            <p>Время открытия: {subcategory.opening_time || "Не указано"}</p>
+            <p>Время закрытия: {subcategory.closing_time || "Не указано"}</p>
+            <p>
+              {subcategory.specific_date ? (
+                <>Дата: {formatDate(subcategory.specific_date)}</>
+              ) : (
+                <>Дни работы: {formatWorkingDays(subcategory)}</>
+              )}
+            </p>
+          </li>
           ))}
         </ul>
       </div>
