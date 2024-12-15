@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, SubcategorySerializer
 from .serializers import (
-    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer
+    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer
 )
-from .models import CustomUser, Subcategory, Country, Region, City
+from .models import CustomUser, Subcategory, Country, Region, City, Category
 
 
 class RegisterView(generics.CreateAPIView):
@@ -40,14 +40,51 @@ class RegionViewSet(viewsets.ModelViewSet):
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
 
+    def get_queryset(self):
+        country_id = self.request.query_params.get('country')
+        if country_id:
+            return self.queryset.filter(country_id=country_id)
+        return self.queryset
+
 
 class CityViewSet(viewsets.ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
 
+    def get_queryset(self):
+        region_id = self.request.query_params.get('region')
+        if region_id:
+            return self.queryset.filter(region_id=region_id)
+        return self.queryset
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        category_id = self.request.query_params.get('city')
+        if category_id:
+            return self.queryset.filter(category_id=category_id)
+        return self.queryset
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
     pagination_class = PageNumberPagination
 
+    def get_queryset(self):
+        country_id = self.request.query_params.get('country')
+        region_id = self.request.query_params.get('region')
+        city_id = self.request.query_params.get('city')
+        category_id = self.request.query_params.get('category') 
+
+        queryset = self.queryset
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        if city_id:
+            queryset = queryset.filter(city_id=city_id)
+        elif region_id:
+            queryset = queryset.filter(region__id=region_id)
+        elif country_id:
+            queryset = queryset.filter(region__country__id=country_id)
+        return queryset

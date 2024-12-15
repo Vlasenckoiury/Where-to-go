@@ -1,4 +1,4 @@
-from .views import CountryViewSet, RegionViewSet, CityViewSet, SubcategoryViewSet, RegisterView, LogoutView
+from .views import CountryViewSet, RegionViewSet, CityViewSet, SubcategoryViewSet, RegisterView, LogoutView, CategoryViewSet
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -11,6 +11,7 @@ urlpatterns = router.urls
 router.register(r'countries', CountryViewSet, basename='countries')
 router.register(r'regions', RegionViewSet, basename='regions')
 router.register(r'cities', CityViewSet, basename='cities')
+router.register(r'category', CategoryViewSet, basename='category')
 router.register(r'subcategories', SubcategoryViewSet, basename='subcategories')
 
 urlpatterns = [
