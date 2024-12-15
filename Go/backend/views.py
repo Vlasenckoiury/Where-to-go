@@ -31,6 +31,14 @@ class LogoutView(generics.GenericAPIView):
             return Response(status=400)
 
 
+class OptionalPagination(PageNumberPagination):
+    def paginate_queryset(self, queryset, request, view=None):
+        # Проверяем параметр no_paginate
+        if request.query_params.get('no_paginate') == 'true':
+            return None  # Отключаем пагинацию
+        return super().paginate_queryset(queryset, request, view)
+    
+
 class CountryViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
@@ -39,6 +47,7 @@ class CountryViewSet(viewsets.ModelViewSet):
 class RegionViewSet(viewsets.ModelViewSet):
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
+    pagination_class = OptionalPagination
 
     def get_queryset(self):
         country_id = self.request.query_params.get('country')
@@ -50,6 +59,7 @@ class RegionViewSet(viewsets.ModelViewSet):
 class CityViewSet(viewsets.ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
+    pagination_class = OptionalPagination
 
     def get_queryset(self):
         region_id = self.request.query_params.get('region')
@@ -60,6 +70,7 @@ class CityViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = OptionalPagination
 
     def get_queryset(self):
         category_id = self.request.query_params.get('city')

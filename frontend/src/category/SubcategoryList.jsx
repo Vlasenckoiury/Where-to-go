@@ -18,10 +18,17 @@ const SubCategoryFilter = () => {
     // Загрузка стран при инициализации
     axios.get("http://localhost:8000/api/countries/").then((response) => {
       setCountries(response.data.results || []);
+    })
+    .catch((error) => {
+      console.error("Ошибка загрузки стран", error);
     });
     // Загрузка категорий при инициализации
-    axios.get("http://localhost:8000/api/category/").then((response) => {
-      setCategories(response.data.results || []);
+    axios.get("http://localhost:8000/api/category/?no_paginate=true")
+    .then((response) => {
+      setCategories(response.data.results || response.data || []);
+    })
+    .catch((error) => {
+      console.error("Ошибка загрузки категорий", error);
     });
   }, []);
 
@@ -34,9 +41,9 @@ const SubCategoryFilter = () => {
 
     if (countryId) {
       axios
-        .get(`http://localhost:8000/api/regions/?country=${countryId}`)
+        .get(`http://localhost:8000/api/regions/?country=${countryId}&no_paginate=true`)
         .then((response) => {
-          setRegions(response.data.results || []);
+          setRegions(response.data || []);
         });
     }
   };
@@ -48,9 +55,36 @@ const SubCategoryFilter = () => {
 
     if (regionId) {
       axios
-        .get(`http://localhost:8000/api/cities/?region=${regionId}`)
+        .get(`http://localhost:8000/api/cities/?region=${regionId}&no_paginate=true`)
         .then((response) => {
-          setCities(response.data.results || []);
+          setCities(response.data || []);
+        });
+    }
+  };
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setSubcategories([]); // Очищаем подкатегории при смене категории
+  
+    if (categoryId) {
+      // Если категория выбрана, загружаем соответствующие подкатегории
+      axios
+        .get(`http://localhost:8000/api/category/?category=${categoryId}&no_paginate=true`)
+        .then((response) => {
+          setCategories(response.data || []);
+        })
+        .catch((error) => {
+          console.error("Ошибка загрузки категорий", error);
+        });
+    } else {
+      // Если категория сброшена, загружаем все категории
+      axios
+        .get("http://localhost:8000/api/category/?no_paginate=true")
+        .then((response) => {
+          setCategories(response.data || []);
+        })
+        .catch((error) => {
+          console.error("Ошибка загрузки категорий", error);
         });
     }
   };
@@ -126,8 +160,6 @@ const SubCategoryFilter = () => {
         <select
           value={selectedRegion}
           onChange={(e) => handleRegionChange(e.target.value)}
-          disabled={!selectedCountry || regions.length === 0}
-          id="region-select"
         >
           <option value="">Выберите область</option>
           {regions.map((region) => (
@@ -159,7 +191,7 @@ const SubCategoryFilter = () => {
         <label>Категория:</label>
         <select
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          onChange={(e) => handleCategoryChange(e.target.value)}
           id="category-select"
         >
           <option value="">Выберите категорию</option>
