@@ -59,11 +59,13 @@ const Home = () => {
       </div>
     </nav>
     <div className="content-container">
-      {isAuthenticated ? (
-        <SubcategoryList />
-      ) : (
-        <h1>Войдите или зарегистрируйтесь в системе!</h1>
-      )}
+      <div className="content">
+        {isAuthenticated ? (
+          <SubcategoryList />
+        ) : (
+          <SubcategoryList />
+        )}
+      </div>
     </div>
   </div>
   );

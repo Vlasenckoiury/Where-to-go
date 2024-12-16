@@ -1,71 +1,119 @@
 /* Основной контейнер */
-.subcategory-list-container {
-  max-width: 100%;
-  margin: 0 auto; /* Центрует блок */
+.container {
+  display: flex;
+  justify-content: space-between; /* Равное расстояние между секциями */
+  align-items: flex-start; /* Выравнивание по верхнему краю */
+  gap: 20px; /* Отступ между секциями */
+  margin: 20px;
+  padding-bottom: 10px;
+}
+/* Левая секция фильтров */
+.filter-section {
+  flex: 1; /* Занимает меньшую часть экрана */
   padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  text-align: left; /* Текст выравнивается влево */
 }
 
-/* Список подкатегорий */
+/* Элементы формы */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #5d2bbb;
+  font-size: 16px;
+}
+
+button.filter-button {
+  background-color: rgb(148, 148, 151);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.filter-button:hover {
+  background-color: rgb(3, 139, 48);
+}
+
+.error-text {
+  color: red;
+}
+
+/* Правая секция результатов */
+.results-section {
+  flex: 2;
+  text-align: left;
+  overflow-y: auto; /* Включаем прокрутку, если контента больше, чем контейнер */
+}
+
 .subcategory-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  margin: 0;
+  max-width: 800px;
+  margin: 20px auto;
 }
 
-/* Элемент подкатегории */
 .subcategory-item {
+  background-color: #f7f7f7;
+  margin-bottom: 15px;
   padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  transition: box-shadow 0.3s;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.subcategory-item:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.subcategory-item h3 {
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-/* Контейнер для пагинации */
-.pagination-container {
-  display: flex;
-  justify-content: center; /* Центрируем кнопки */
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 50px;
-  gap: 10px;
+.subcategory-item p {
+  margin: 5px 0;
 }
 
 /* Кнопки пагинации */
-.pagination-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+.button-pagination {
+  display: flex; /* Используем Flexbox */
+  justify-content: center; /* Центрируем кнопки */
+  margin-top: 20px; /* Отступ сверху */
+  margin-bottom: 40px; /* Добавим отступ снизу для полного видимости */
+  padding: 10px; /* Немного внутреннего отступа для кнопок */
+}
+
+.button-pagination button {
+  margin: 0 10px; /* Отступы между кнопками */
+  border: 2px solid blue; /* Синий обвод */
+  border-radius: 10px; /* Закругленные края */
+  padding: 10px 20px; /* Внутренние отступы */
+  background-color: white; /* Белый фон */
+  color: blue; /* Синий текст */
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.pagination-button:hover:not(:disabled) {
-  background-color: #0056b3;
+.button-pagination button:hover {
+  background-color: lightblue; /* Светло-синий фон при наведении */
+  color: black; /* Темный текст при наведении */
 }
 
-.pagination-button:disabled {
-  background-color: #d6d6d6;
+.button-pagination button:disabled {
+  border: 2px solid gray; /* Серый обвод для отключенных кнопок */
+  color: gray; /* Серый текст */
+  background-color: #f0f0f0; /* Светлый фон для отключенных кнопок */
   cursor: not-allowed;
-}
-
-/* Информация о страницах */
-.pagination-info {
-  font-size: 16px;
-  color: #333;
-}
-
-.button-pagination {
-  margin-top: 50px;
-  margin-bottom: 100px;
 }

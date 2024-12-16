@@ -27,11 +27,25 @@ body {
   border-bottom: 2px solid #007bff
 }
 
+/* Внешний контейнер */
 .content-container {
-  flex: 1 1 auto; /* Растягивается */
-  overflow-y: auto; /* Вертикальная прокрутка */
-  overflow-x: hidden; /* Убираем горизонтальную прокрутку */
-  padding: 20px;
-  background-color: #f8f9fa; /* Фон */
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Тень */
+  padding: 20px; /* Внешние отступы вокруг контента */
+  background-color: #f8f9fa; /* Светло-серый фон */
+  min-height: 100vh; /* Растягиваем контейнер на высоту экрана */
+  display: flex;
+  flex-direction: column; /* Для вертикального расположения */
+  overflow-y: auto; /* Включаем прокрутку для всей страницы */
+}
+
+/* Контентный блок */
+/* Контентный блок */
+.content {
+  width: 100%; /* Занимает всю ширину */
+  max-width: auto; /* Ограничиваем максимальную ширину */
+  background-color: #fff; /* Белый фон */
+  border-radius: 10px; /* Закругленные края */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень для объема */
+  display: flex;
+  flex-direction: column; /* Все элементы внутри контента идут вертикально */
+  flex-grow: 1; /* Контент растягивается на доступную высоту */
 }

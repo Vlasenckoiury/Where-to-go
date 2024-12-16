@@ -186,114 +186,122 @@ const SubCategoryFilter = () => {
   };
 
   return (
-    <div>
-      <h2>Фильтровать подкатегории</h2>
-      <div>
-        <label>Страна:</label>
-        <select
-          value={selectedCountry}
-          onChange={(e) => handleCountryChange(e.target.value)}
-          id="country-select"
-        >
-          <option value="">Выберите страну</option>
-          {countries.map((country) => (
-            <option key={country.id} value={country.id}>
-              {country.name}
-            </option>
-          ))}
-        </select>
+    <div className="container">
+      <div className="filter-section">
+        <h2>Фильтровать подкатегории</h2>
+        <div className="form-group">
+          <label>Страна:</label>
+          <select
+            value={selectedCountry}
+            onChange={(e) => handleCountryChange(e.target.value)}
+            id="country-select"
+          >
+            <option value="">Выберите страну</option>
+            {countries.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Область:</label>
+          <select
+            value={selectedRegion}
+            onChange={(e) => handleRegionChange(e.target.value)}
+          >
+            <option value="">Выберите область</option>
+            {regions.map((region) => (
+              <option key={region.id} value={region.id}>
+                {region.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Город:</label>
+          <select
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            disabled={!selectedRegion || cities.length === 0}
+            id="city-select"
+          >
+            <option value="">Выберите город</option>
+            {cities.map((city) => (
+              <option key={city.id} value={city.id}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Категория:</label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => handleCategoryChange(e.target.value)}
+            id="category-select"
+          >
+            <option value="">Выберите категорию</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button onClick={handleFilter} className="filter-button">
+          Применить фильтры
+        </button>
+        {loading && <p>Загрузка...</p>}
+        {error && <p className="error-text">{error}</p>}
+        <p>{totalCount}</p>
       </div>
-      <div>
-        <label>Область:</label>
-        <select
-          value={selectedRegion}
-          onChange={(e) => handleRegionChange(e.target.value)}
-        >
-          <option value="">Выберите область</option>
-          {regions.map((region) => (
-            <option key={region.id} value={region.id}>
-              {region.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Город:</label>
-        <select
-          value={selectedCity}
-          onChange={(e) => setSelectedCity(e.target.value)}
-          disabled={!selectedRegion || cities.length === 0}
-          id="city-select"
-        >
-          <option value="">Выберите город</option>
-          {cities.map((city) => (
-            <option key={city.id} value={city.id}>
-              {city.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label>Категория:</label>
-        <select
-          value={selectedCategory}
-          onChange={(e) => handleCategoryChange(e.target.value)}
-          id="category-select"
-        >
-          <option value="">Выберите категорию</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button onClick={handleFilter} id="filter-button">
-        Применить фильтры
-      </button>
-
-      {loading && <p>Загрузка...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <p>{totalCount}</p>
-
-      <div>
+      <div className="results-section">
         <h3>Подкатегории</h3>
-        <ul>
+        <ul className="subcategory-list">
           {subcategories.map((subcategory) => (
             <li key={subcategory.id} className="subcategory-item">
               <h3>{subcategory.name || "Без названия"}</h3>
-              <p>Город: {subcategory.city.name || "Не указан"}</p>
-              <p>Категория: {subcategory.category.name || "Не указан"}</p>
-              <p>
-                Адрес: г.{subcategory.city.name || ""},{" "}
-                {subcategory.address || "Не указан"}
-              </p>
-              <p>Телефон: {subcategory.phone || "Не указан"}</p>
-              <p>Описание: {subcategory.description || "Не указано"}</p>
-              <p>Время открытия: {subcategory.opening_time || "Не указано"}</p>
-              <p>Время закрытия: {subcategory.closing_time || "Не указано"}</p>
-              <p>
-                {subcategory.specific_date ? (
-                  <>Дата: {formatDate(subcategory.specific_date)}</>
-                ) : (
-                  <>Дни работы: {formatWorkingDays(subcategory)}</>
-                )}
-              </p>
+              <p>🏙 Город:  {subcategory.city.name || "Не указан"}</p>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i class="bi bi-border-width"style={{ marginRight: '10px' }}></i>
+                <p>Категория:  {subcategory.category.name || "Не указан"}</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i class="bi bi-geo-alt-fill"style={{ marginRight: '10px' }}></i>
+                <p>Адрес:  {subcategory.address || "Не указан"}</p> 
+              </div>  
+              <p> 📞 Телефон:  {subcategory.phone || "Не указан"}</p>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i className="bi bi-clipboard-fill" style={{ marginRight: '10px' }}></i>
+                <p style={{ margin: 0 }}>Описание: {subcategory.description || "Не указано"}</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i className="bi bi-alarm-fill" style={{ marginRight: '10px' }}></i>
+                <p>
+                  Время работы:  {subcategory.opening_time || "Не указано"} -{" "}
+                  {subcategory.closing_time || "Не указано"}
+                </p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <i className="bi bi-calendar-check-fill" style={{ marginRight: '10px' }}></i>
+                <p>
+                {subcategory.specific_date
+                  ? `Дата: ${formatDate(subcategory.specific_date)}`
+                  : `Дни работы: ${formatWorkingDays(subcategory)}`}
+                </p>
+              </div>                   
             </li>
           ))}
         </ul>
-      </div>
-      <div className="button-pagination">
-        <button onClick={handlePrevPage} disabled={!prevPage}>
-          Назад
-        </button>
-        <button onClick={handleNextPage} disabled={!nextPage}>
-          Вперед
-        </button>
+        <div className="button-pagination">
+          <button onClick={handlePrevPage} disabled={!prevPage}>
+            Назад
+          </button>
+          <button onClick={handleNextPage} disabled={!nextPage}>
+            Вперед
+          </button>
+        </div>
       </div>
     </div>
   );
