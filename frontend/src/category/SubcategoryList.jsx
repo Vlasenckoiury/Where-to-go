@@ -188,7 +188,7 @@ const SubCategoryFilter = () => {
   return (
     <div className="container">
       <div className="filter-section">
-        <h2>Фильтровать подкатегории</h2>
+        <h2>Куда идём?</h2>
         <div className="form-group">
           <label>Страна:</label>
           <select
@@ -257,7 +257,19 @@ const SubCategoryFilter = () => {
         <p>{totalCount}</p>
       </div>
       <div className="results-section">
-        <h3>Подкатегории</h3>
+      <h3>
+        Выбирай куда идём сегодня
+        <img
+          src="/images/go-new.jpg" // Укажите путь к картинке
+          alt="small-icon"
+          style={{
+            width: '120px', // Размер картинки (можно настроить)
+            height: '50px',
+            verticalAlign: 'middle', // Выравнивание картинки по вертикали с текстом
+            marginRight: '10px', // Отступ между картинкой и текстом
+          }}
+        />
+      </h3>
         <ul className="subcategory-list">
           {subcategories.map((subcategory) => (
             <li key={subcategory.id} className="subcategory-item">
