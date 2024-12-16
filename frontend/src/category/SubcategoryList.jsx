@@ -283,6 +283,17 @@ const SubCategoryFilter = () => {
                   {subcategory.closing_time || "Не указано"}
                 </p>
               </div>
+              {(subcategory.lunch_start || subcategory.lunch_end) && (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <i className="bi bi-clock-fill" style={{ marginRight: '10px' }}></i>
+                  {subcategory.lunch_start && (
+                    <p><strong>Обед с:  </strong>{subcategory.lunch_start}</p>
+                  )}
+                  {subcategory.lunch_end && (
+                    <p><strong>До: </strong> {subcategory.lunch_end}</p>
+                  )}
+                </div>
+              )}
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <i className="bi bi-calendar-check-fill" style={{ marginRight: '10px' }}></i>
                 <p>
