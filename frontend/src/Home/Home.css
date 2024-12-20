@@ -18,9 +18,10 @@ body {
   padding-right: 20px;
   position: fixed;
   top: 0;
+  
   left: 0;
   width: 100%;
-  background-color: #f8f9fa; /* Цвет фона */
+  background-color: #bcbec0; /* Цвет фона */
   z-index: 1000; /* Уровень слоя (над остальными элементами) */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
   padding-bottom: 2px;
@@ -38,13 +39,12 @@ body {
 }
 
 /* Контентный блок */
-/* Контентный блок */
 .content {
   width: 100%; /* Занимает всю ширину */
   max-width: auto; /* Ограничиваем максимальную ширину */
   background-color: #fff; /* Белый фон */
   border-radius: 10px; /* Закругленные края */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Тень для объема */
+  box-shadow: 0px 4px 8px rgba(49, 47, 47, 0.1); /* Тень для объема */
   display: flex;
   flex-direction: column; /* Все элементы внутри контента идут вертикально */
   flex-grow: 1; /* Контент растягивается на доступную высоту */

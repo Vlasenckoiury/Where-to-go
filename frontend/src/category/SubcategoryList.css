@@ -1,20 +1,17 @@
 /* Основной контейнер */
 .container {
   display: flex;
-  justify-content: space-between; /* Равное расстояние между секциями */
-  align-items: flex-start; /* Выравнивание по верхнему краю */
   gap: 20px; /* Отступ между секциями */
   margin: 20px;
-  padding-bottom: 10px;
 }
 /* Левая секция фильтров */
 .filter-section {
-  flex: 1; /* Занимает меньшую часть экрана */
-  padding: 20px;
+  height: 530px;
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f9f9f9;
-  text-align: left; /* Текст выравнивается влево */
+  padding: 15px;
+  height: auto;
 }
 
 /* Элементы формы */
@@ -55,8 +52,12 @@ button.filter-button:hover {
 
 /* Правая секция результатов */
 .results-section {
+  margin-bottom: 20px;
   flex: 2;
-  text-align: left;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
   overflow-y: auto; /* Включаем прокрутку, если контента больше, чем контейнер */
 }
 
@@ -64,38 +65,64 @@ button.filter-button:hover {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-width: 800px;
-  margin: 20px auto;
 }
 
 .subcategory-item {
-  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #f9f9f9;
   margin-bottom: 15px;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.subcategory-item h3 {
+.subcategory-content {
+  display: flex;
+  width: 100%;
+}
+
+.subcategory-image {
+  flex: 0 0 auto; /* Фиксированный размер для изображения */
+}
+
+.subcategory-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.subcategory-info {
+  margin-left: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.subcategory-info h3 {
   margin-bottom: 10px;
   text-align: center;
 }
 
-.subcategory-item p {
+.subcategory-info p {
   margin: 5px 0;
+  font-size: 14px;
+  color: #070707;
 }
 
 /* Кнопки пагинации */
 .button-pagination {
   display: flex; /* Используем Flexbox */
   justify-content: center; /* Центрируем кнопки */
-  margin-top: 20px; /* Отступ сверху */
-  margin-bottom: 40px; /* Добавим отступ снизу для полного видимости */
-  padding: 10px; /* Немного внутреннего отступа для кнопок */
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .button-pagination button {
-  margin: 0 10px; /* Отступы между кнопками */
+  margin: 10px 20px; /* Отступы между кнопками */
   border: 2px solid blue; /* Синий обвод */
   border-radius: 10px; /* Закругленные края */
   padding: 10px 20px; /* Внутренние отступы */
@@ -117,3 +144,5 @@ button.filter-button:hover {
   background-color: #f0f0f0; /* Светлый фон для отключенных кнопок */
   cursor: not-allowed;
 }
+
+

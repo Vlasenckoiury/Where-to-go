@@ -142,7 +142,7 @@ SIMPLE_JWT = {
 AUTH_USER_MODEL = 'backend.CustomUser'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "backend/static",
+    BASE_DIR / "static",
 ]
 
 MEDIA_URL = '/media/'  # URL для доступа к медиафайлам

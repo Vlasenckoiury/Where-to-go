@@ -21,5 +21,3 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout"),
     path('token/refresh/', TokenRefreshView.as_view(), name="token_refresh"),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
