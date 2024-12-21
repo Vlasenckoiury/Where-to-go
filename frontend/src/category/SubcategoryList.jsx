@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import Maps from '../maps/Maps';
 import "./SubcategoryList.css";
 
 
@@ -273,64 +272,68 @@ const SubCategoryFilter = () => {
         />
       </h3>
         <ul className="subcategory-list">
-          {subcategories.map((subcategory) => (
-            <li key={subcategory.id} className="subcategory-item">
-              <div className="subcategory-content">
-                <div className="subcategory-image">
-                  <img
-                    src={subcategory.image}
-                    alt={subcategory.name}
-                    style={{ width: '250px', height: '320px', borderRadius: '10px' }}
-                  />
-                </div>
-                <div className="subcategory-info">
-                  <h3>{subcategory.name || "Без названия"}</h3>
-                  <p>🏙 Город:  {subcategory.city.name || "Не указан"}</p>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i class="bi bi-border-width"style={{ marginRight: '10px' }}></i>
-                    <p>Категория:  {subcategory.category.name || "Не указан"}</p>
+          {subcategories.length === 0 ? (
+            <p>Пока что ничего не выбрали</p> // Если список пустой, отображаем текст
+          ) : (
+            subcategories.map((subcategory) => (
+              <li key={subcategory.id} className="subcategory-item">
+                <div className="subcategory-content">
+                  <div className="subcategory-image">
+                    <img
+                      src={subcategory.image || '/images/нет фото.jpg'}
+                      alt={subcategory.name}
+                      style={{ width: '250px', height: '320px', borderRadius: '10px', objectFit: 'contain', }}
+                    />
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i class="bi bi-geo-alt-fill"style={{ marginRight: '10px' }}></i>
-                    <p>Адрес:  г.{subcategory.city.name}, {subcategory.address || "Не указан"}</p> 
-                  </div>  
-                  <p> 📞 Телефон:  {subcategory.phone || "Не указан"}</p>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bi bi-clipboard-fill" style={{ marginRight: '10px' }}></i>
-                    <p style={{ margin: 0 }}>Описание: {subcategory.description || "Не указано"}</p>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bi bi-alarm-fill" style={{ marginRight: '10px' }}></i>
-                    <p>
-                      Время работы:  {subcategory.opening_time || "Не указано"} -{" "}
-                      {subcategory.closing_time || "Не указано"}
-                    </p>
-                  </div>
-                  {(subcategory.lunch_start || subcategory.lunch_end) && (
+                  <div className="subcategory-info">
+                    <h3>{subcategory.name || "Без названия"}</h3>
+                    <p>🏙 Город:  {subcategory.city.name || "Не указан"}</p>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i className="bi bi-clock-fill" style={{ marginRight: '10px' }}></i>
-                      {subcategory.lunch_start && (
-                        <p><strong>Обед с:  </strong>{subcategory.lunch_start}</p>
-                      )}
-                      {subcategory.lunch_end && (
-                        <p><strong>До: </strong> {subcategory.lunch_end}</p>
-                      )}
+                      <i class="bi bi-border-width"style={{ marginRight: '10px' }}></i>
+                      <p>Категория:  {subcategory.category.name || "Не указан"}</p>
                     </div>
-                  )}
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <i className="bi bi-calendar-check-fill" style={{ marginRight: '10px' }}></i>
-                    <p>
-                    {subcategory.specific_date
-                      ? `Дата: ${formatDate(subcategory.specific_date)}`
-                      : `Дни работы: ${formatWorkingDays(subcategory)}`}
-                    </p>
-                  </div>                   
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <i class="bi bi-geo-alt-fill"style={{ marginRight: '10px' }}></i>
+                      <p>Адрес:  г.{subcategory.city.name}, {subcategory.address || "Не указан"}</p> 
+                    </div>  
+                    <p> 📞 Телефон:  {subcategory.phone || "Не указан"}</p>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <i className="bi bi-clipboard-fill" style={{ marginRight: '10px' }}></i>
+                      <p style={{ margin: 0 }}>Описание: {subcategory.description || "Не указано"}</p>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <i className="bi bi-alarm-fill" style={{ marginRight: '10px' }}></i>
+                      <p>
+                        Время работы:  {subcategory.opening_time || "Не указано"} -{" "}
+                        {subcategory.closing_time || "Не указано"}
+                      </p>
+                    </div>
+                    {(subcategory.lunch_start || subcategory.lunch_end) && (
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <i className="bi bi-clock-fill" style={{ marginRight: '10px' }}></i>
+                        {subcategory.lunch_start && (
+                          <p><strong>Обед с:  </strong>{subcategory.lunch_start}</p>
+                        )}
+                        {subcategory.lunch_end && (
+                          <p><strong>До: </strong> {subcategory.lunch_end}</p>
+                        )}
+                      </div>
+                    )}
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <i className="bi bi-calendar-check-fill" style={{ marginRight: '10px' }}></i>
+                      <p>
+                      {subcategory.specific_date
+                        ? `Дата: ${formatDate(subcategory.specific_date)}`
+                        : `Дни работы: ${formatWorkingDays(subcategory)}`}
+                      </p>
+                    </div>                   
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="button-pagination">
+              </li>
+            ))
+          )}
+          </ul>
+        <div className={`button-pagination ${subcategories.length === 0 ? 'empty' : ''}`}>
           <button onClick={handlePrevPage} disabled={!prevPage}>
             Назад
           </button>
@@ -339,9 +342,6 @@ const SubCategoryFilter = () => {
           </button>
         </div>
       </div>
-      {/* <div className="map-section">
-        <Maps />
-      </div> */}
     </div>
   );
 };

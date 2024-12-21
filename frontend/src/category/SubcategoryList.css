@@ -6,12 +6,12 @@
 }
 /* Левая секция фильтров */
 .filter-section {
+  width: 250px;
   height: 530px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px;
-  height: auto;
 }
 
 /* Элементы формы */
@@ -60,7 +60,10 @@ button.filter-button:hover {
   padding: 15px;
   overflow-y: auto; /* Включаем прокрутку, если контента больше, чем контейнер */
 }
-
+.results-section h3 {
+  text-align: center;
+  font-size: 36px;
+}
 .subcategory-list {
   list-style: none;
   padding: 0;
@@ -87,13 +90,6 @@ button.filter-button:hover {
   flex: 0 0 auto; /* Фиксированный размер для изображения */
 }
 
-.subcategory-image img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
 .subcategory-info {
   margin-left: 15px;
   flex: 1;
@@ -109,7 +105,7 @@ button.filter-button:hover {
 
 .subcategory-info p {
   margin: 5px 0;
-  font-size: 14px;
+  font-size: 16px;
   color: #070707;
 }
 
@@ -122,6 +118,8 @@ button.filter-button:hover {
 }
 
 .button-pagination button {
+  width: 144px;
+  margin-right: 60px;
   margin: 10px 20px; /* Отступы между кнопками */
   border: 2px solid blue; /* Синий обвод */
   border-radius: 10px; /* Закругленные края */
@@ -133,16 +131,21 @@ button.filter-button:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.button-pagination.empty {
+  margin-top: 200px; /* Если список пустой, убираем отступ сверху */
+  margin-bottom: 50px; /* И добавляем отступ снизу */
+}
+
 .button-pagination button:hover {
   background-color: lightblue; /* Светло-синий фон при наведении */
   color: black; /* Темный текст при наведении */
 }
 
 .button-pagination button:disabled {
+  width: 144px;
+  margin-right: 60px;
   border: 2px solid gray; /* Серый обвод для отключенных кнопок */
   color: gray; /* Серый текст */
   background-color: #f0f0f0; /* Светлый фон для отключенных кнопок */
   cursor: not-allowed;
 }
-
-
