@@ -19,6 +19,12 @@
   margin-bottom: 15px;
 }
 
+.no-results {
+  text-align: center;
+  font-size: 40px;
+  color: rgb(211, 12, 12);
+}
+
 label {
   display: block;
   margin-bottom: 5px;

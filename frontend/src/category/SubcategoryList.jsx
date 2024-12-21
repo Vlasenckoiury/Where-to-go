@@ -273,7 +273,7 @@ const SubCategoryFilter = () => {
       </h3>
         <ul className="subcategory-list">
           {subcategories.length === 0 ? (
-            <p>Пока что ничего не выбрали</p> // Если список пустой, отображаем текст
+            <p className="no-results">Вы пока что ничего не выбрали</p> // Если список пустой, отображаем текст
           ) : (
             subcategories.map((subcategory) => (
               <li key={subcategory.id} className="subcategory-item">

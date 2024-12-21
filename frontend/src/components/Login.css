@@ -6,6 +6,18 @@
   background-color: #ffffff;
 }
 
+.login-form {
+  margin-left: 60px;;
+}
+
+.danger {
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 25px;
+}
+
 h2 {
   text-align: center;
 }
