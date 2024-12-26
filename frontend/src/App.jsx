@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './Home/Home';
+import SubCategoryAdd from './addsubcategory/addsubcategory';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/addsubcategory" element={<SubCategoryAdd/>} />
             </Routes>
         </Router>
     );

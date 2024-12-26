@@ -23,11 +23,11 @@ const Register = () => {
         password,
       });
 
-      setSuccess("Registration successful! Redirecting to login...");
+      setSuccess("Регистрация прошла успешно!");
       setTimeout(() => navigate("/login"), 2000); // Перенаправляем на страницу логина через 2 секунды
     } catch (err) {
       setError(
-        err.response?.data?.message || "An error occurred during registration."
+        err.response?.data?.message || "Ошибка регистрации. Попробуйте ещё раз."
       );
     }
   };

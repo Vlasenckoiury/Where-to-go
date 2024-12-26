@@ -43,7 +43,12 @@ const Home = () => {
           <ul className="navbar-nav ms-auto">
             {isAuthenticated ? (
               <li className="nav-item">
-                <button className="btn btn-danger" onClick={handleLogout}>
+                <div>
+                  <Link className="addcategory" to="/addsubcategory">
+                    Добавить Объект
+                  </Link>
+                </div>
+                <button className="logout-btn" onClick={handleLogout}>
                   Выйти
                 </button>
               </li>
