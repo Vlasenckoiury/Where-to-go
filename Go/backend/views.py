@@ -79,9 +79,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return self.queryset
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
+    pagination_class = PageNumberPagination
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
-    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         country_id = self.request.query_params.get('country')
@@ -99,3 +99,6 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
         elif country_id:
             queryset = queryset.filter(region__country__id=country_id)
         return queryset
+
+    def perform_create(self, serializer):
+            serializer.save()

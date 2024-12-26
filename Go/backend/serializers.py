@@ -30,36 +30,47 @@ class RegisterSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = '__all__'
+        fields = ['name'] 
 
 class RegionSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
     
     class Meta:
         model = Region
-        fields = '__all__'
+        fields = ['name', 'country']
 
 class CitySerializer(serializers.ModelSerializer):
     region = RegionSerializer()
 
     class Meta:
         model = City
-        fields = '__all__'
+        fields = ['name', 'region']
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['name']
 
 class SubcategorySerializer(serializers.ModelSerializer):
-    city = CitySerializer()  
-    category = CategorySerializer()  
-
-    def validate(self, data):
-            instance = Subcategory(**data)
-            instance.full_clean()  # Вызывает метод clean() для проверки
-            return data
+    city = CitySerializer(read_only=True)  # Вложенный сериализатор для отображения
+    category = CategorySerializer(read_only=True)  # Вложенный сериализатор для отображения
+    city_id = serializers.PrimaryKeyRelatedField(
+        queryset=City.objects.all(),
+        source='city',  # Привязываем к полю модели
+        write_only=True
+    )
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='category',  # Привязываем к полю модели
+        write_only=True
+    )
 
     class Meta:
         model = Subcategory
         fields = '__all__'
+
+    def validate(self, data):
+        instance = Subcategory(**data)
+        instance.full_clean()  # Вызывает метод clean() для проверки
+        return data
+
