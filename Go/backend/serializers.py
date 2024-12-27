@@ -30,26 +30,26 @@ class RegisterSerializer(serializers.ModelSerializer):
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['name'] 
+        fields = '__all__'
 
 class RegionSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
     
     class Meta:
         model = Region
-        fields = ['name', 'country']
+        fields = '__all__'
 
 class CitySerializer(serializers.ModelSerializer):
     region = RegionSerializer()
 
     class Meta:
         model = City
-        fields = ['name', 'region']
+        fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name']
+        fields = '__all__'
 
 class SubcategorySerializer(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)  # Вложенный сериализатор для отображения

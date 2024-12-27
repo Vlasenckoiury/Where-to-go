@@ -10,6 +10,7 @@ from .serializers import (
     RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer
 )
 from .models import CustomUser, Subcategory, Country, Region, City, Category
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class RegisterView(generics.CreateAPIView):
@@ -82,6 +83,7 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_queryset(self):
         country_id = self.request.query_params.get('country')
