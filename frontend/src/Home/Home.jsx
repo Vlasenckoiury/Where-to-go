@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import SubcategoryList from "../category/SubcategoryList";
 import "./Home.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -77,6 +79,40 @@ const Home = () => {
         ) : (
           <SubcategoryList />
         )}
+      </div>
+      <div class="container-foot">
+        <footer class="footer-container">
+          <div class="footer-content">
+          <div className="footer-left">
+            <p>© 2024 Where to go.</p>
+            <p>
+              Свяжитесь с нами: <a href="mailto:support@wheretogo.com">support@wheretogo.com</a>
+            </p>
+            <p>Политика конфиденциальности</p>
+            <p>О Нас</p>
+          </div>
+          <div className="footer-center">
+            <h3>Подпишитесь на нашего Telegram Bot <a href="https://t.me/yourbotlink" target="_blank" rel="noopener noreferrer"><img src="images/телеграм.png" alt="telegram" className="me-2" width="100" height="60" /></a></h3>
+          </div>
+          <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li className="ms-3">
+              <a className="text-body-secondary" href="https://x.com/">
+                <i className="bi bi-twitter" style={{ fontSize: '24px' }}></i>
+              </a>
+            </li>
+            <li className="ms-3">
+              <a className="text-body-secondary" href="https://www.instagram.com/">
+                <i className="bi bi-instagram" style={{ fontSize: '24px' }}></i>
+              </a>
+            </li>
+            <li className="ms-3">
+              <a className="text-body-secondary" href="https://ru-ru.facebook.com/">
+                <i className="bi bi-facebook" style={{ fontSize: '24px' }}></i>
+              </a>
+            </li>
+          </ul>
+          </div>
+        </footer>
       </div>
     </div>
   </div>

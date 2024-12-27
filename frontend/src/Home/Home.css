@@ -9,7 +9,6 @@ body {
   width: 100%; /* На всю ширину */
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Убираем прокрутку у главного контейнера */
 }
 
 #navbar {
@@ -18,7 +17,6 @@ body {
   padding-right: 20px;
   position: fixed;
   top: 0;
-  
   left: 0;
   width: 100%;
   background-color: #bcbec0; /* Цвет фона */
@@ -41,7 +39,7 @@ body {
 /* Контентный блок */
 .content {
   width: 100%; /* Занимает всю ширину */
-  max-width: auto; /* Ограничиваем максимальную ширину */
+  margin-bottom: 20px;
   background-color: #fff; /* Белый фон */
   border-radius: 10px; /* Закругленные края */
   box-shadow: 0px 4px 8px rgba(49, 47, 47, 0.1); /* Тень для объема */
@@ -96,4 +94,69 @@ body {
 
 .logout-btn:hover {
   background-color: #c82333;
+}
+
+.container-foot {
+  width: 100%; /* На всю ширину экрана */
+  padding: 0; /* Убираем отступы */
+  margin: 0; /* Убираем внешние отступы */
+  margin-left: 0px;
+  margin-right: 0px;
+  max-width: 1700px;
+}
+
+.footer-container {
+  width: 100%; /* Растягиваем футер на всю ширину */
+  background-color: #c7c7c7;; /* Цвет фона футера */
+  text-align: center; /* Центрируем текст */
+  padding: 1rem; /* Внутренние отступы для футера */
+  border-radius: 10px;
+  border-top: 2px solid #749bc3; /* Линия сверху */
+  justify-content: space-between; /* Распределяем элементы по краям */
+  align-items: center; /* Вертикальное выравнивание */
+}
+
+.footer-content {
+  display: flex;
+  height: 140px;
+  justify-content: space-between; /* Распределяет элементы по горизонтали */
+  width: 100%; /* Занимает всю ширину контейнера */
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column; /* Текстовые элементы будут располагаться вертикально */
+  text-align: left; /* Выравнивание текста по левому краю */
+}
+
+.footer-left p {
+  margin: 0; /* Убираем отступы между абзацами */
+}
+
+.footer-content ul {
+  margin-bottom: 0;
+}
+
+.footer-content a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+}
+
+.footer-center {
+  text-align: center;
+  flex-grow: 1; /* Это позволяет контейнеру быть растянутым и оставаться по центру */
+  margin-top: 20px;
+}
+
+.footer-center a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer-center a:hover {
+  text-decoration: underline;
 }
