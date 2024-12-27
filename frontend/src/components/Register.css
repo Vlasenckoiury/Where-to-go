@@ -9,7 +9,7 @@
   left: 10px;
   background-color: #f8f9fa; /* Светло-серый цвет */
   color: #000;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 8px 15px;
   text-decoration: none;
   font-weight: bold;
@@ -17,5 +17,5 @@
 }
 
 .btn-home:hover {
-  background-color: #98c09e; /* меняет цвет при наведении */
+  background-color: #867bb6; /* меняет цвет при наведении */
 }

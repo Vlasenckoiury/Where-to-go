@@ -94,7 +94,7 @@ const Home = () => {
               Свяжитесь с нами: <a href="mailto:support@wheretogo.com">support@wheretogo.com</a>
             </p>
             <p>Политика конфиденциальности</p>
-            <p>О Нас</p>
+            <Link to="/info">О Нас</Link>
           </div>
           <div className="footer-center">
             <h3>Подпишитесь на нашего Telegram Bot <a href="https://t.me/where_to_go_project_bot" target="_blank" rel="noopener noreferrer"><img src="images/телеграм.png" alt="telegram" className="me-2" width="100" height="60" /></a></h3>
