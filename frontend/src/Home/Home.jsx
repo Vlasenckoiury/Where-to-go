@@ -43,6 +43,11 @@ const Home = () => {
         </Link>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav ms-auto">
+            <div className="navbar-left">
+              <Link className="info" to="/info">
+                <span className="info-text">О Нас</span>
+              </Link>
+            </div>
             {isAuthenticated ? (
               <li className="nav-item">
                 <div>
@@ -84,7 +89,7 @@ const Home = () => {
         <footer class="footer-container">
           <div class="footer-content">
           <div className="footer-left">
-            <p>© 2024 Where to go.</p>
+            <p>© 2025 Where to go.</p>
             <p>
               Свяжитесь с нами: <a href="mailto:support@wheretogo.com">support@wheretogo.com</a>
             </p>
@@ -92,7 +97,7 @@ const Home = () => {
             <p>О Нас</p>
           </div>
           <div className="footer-center">
-            <h3>Подпишитесь на нашего Telegram Bot <a href="https://t.me/yourbotlink" target="_blank" rel="noopener noreferrer"><img src="images/телеграм.png" alt="telegram" className="me-2" width="100" height="60" /></a></h3>
+            <h3>Подпишитесь на нашего Telegram Bot <a href="https://t.me/where_to_go_project_bot" target="_blank" rel="noopener noreferrer"><img src="images/телеграм.png" alt="telegram" className="me-2" width="100" height="60" /></a></h3>
           </div>
           <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
             <li className="ms-3">

@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './Home/Home';
 import SubCategoryAdd from './addsubcategory/addsubcategory';
+import Info from './Home/Info';
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/addsubcategory" element={<SubCategoryAdd/>} />
+                <Route path="/info" element={<Info/>} />
             </Routes>
         </Router>
     );

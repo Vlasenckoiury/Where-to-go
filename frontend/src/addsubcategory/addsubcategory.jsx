@@ -224,6 +224,9 @@ const SubCategoryAdd = () => {
   
   return (
     <div className="form-container-add-subcategory">
+      <div className="info-button">
+        <a href="/" className="btn-home">Главная</a>
+      </div>
       <h3>Добавить подкатегорию</h3>
 
       {success && <div className="alert alert-success">{success}</div>}

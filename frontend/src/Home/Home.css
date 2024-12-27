@@ -103,6 +103,7 @@ body {
   margin-left: 0px;
   margin-right: 0px;
   max-width: 1700px;
+  margin-bottom: 40px;
 }
 
 .footer-container {
@@ -160,3 +161,34 @@ body {
 .footer-center a:hover {
   text-decoration: underline;
 }
+
+/* Добавляем стили для выравнивания ссылки "О Нас" слева */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  margin-right: auto; /* Выравнивает элементы слева */
+}
+
+/* Стили для ссылки "О Нас" */
+.info {
+  color: #070808; /* Цвет текста */
+  text-decoration: none; /* Убираем подчеркивание */
+  font-size: 18px;
+  font-weight: bold; /* Сделаем текст жирным */
+  padding: 10px 15px; /* Добавляем отступы */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Стили для ссылки при наведении */
+.info:hover {
+  background-color: #f0f0f0; /* Легкий фон при наведении */
+  color: #377bc9; /* Темный синий цвет текста */
+}
+
+/* Дополнительные стили для текста внутри ссылки */
+.info-text {
+  text-transform: uppercase; /* Преобразуем в верхний регистр */
+}
+
+
