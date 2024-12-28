@@ -10,7 +10,7 @@ from .serializers import (
     RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer
 )
 from .models import CustomUser, Subcategory, Country, Region, City, Category
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 class RegisterView(generics.CreateAPIView):
@@ -68,6 +68,7 @@ class CityViewSet(viewsets.ModelViewSet):
             return self.queryset.filter(region_id=region_id)
         return self.queryset
 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -79,17 +80,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
             return self.queryset.filter(category_id=category_id)
         return self.queryset
 
+
 class SubcategoryViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
     queryset = Subcategory.objects.all()
     serializer_class = SubcategorySerializer
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def get_queryset(self):
         country_id = self.request.query_params.get('country')
         region_id = self.request.query_params.get('region')
         city_id = self.request.query_params.get('city')
-        category_id = self.request.query_params.get('category') 
+        category_id = self.request.query_params.get('category')
 
         queryset = self.queryset
         if category_id:
@@ -103,4 +105,4 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-            serializer.save()
+        serializer.save()

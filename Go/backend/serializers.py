@@ -27,10 +27,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.token = str(refresh.access_token)
         return user
 
+
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
         fields = '__all__'
+
 
 class RegionSerializer(serializers.ModelSerializer):
     country = CountrySerializer()
@@ -39,6 +41,7 @@ class RegionSerializer(serializers.ModelSerializer):
         model = Region
         fields = '__all__'
 
+
 class CitySerializer(serializers.ModelSerializer):
     region = RegionSerializer()
 
@@ -46,10 +49,12 @@ class CitySerializer(serializers.ModelSerializer):
         model = City
         fields = '__all__'
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
 
 class SubcategorySerializer(serializers.ModelSerializer):
     city = CitySerializer(read_only=True)  # Вложенный сериализатор для отображения
@@ -73,4 +78,3 @@ class SubcategorySerializer(serializers.ModelSerializer):
         instance = Subcategory(**data)
         instance.full_clean()  # Вызывает метод clean() для проверки
         return data
-
