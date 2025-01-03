@@ -68,6 +68,9 @@ const Login = () => {
               required
             />
           </div>
+          <div className="forgot-password">
+            <a href="/password_reset/">Забыли пароль?</a>
+          </div>
           <button type="submit" className="btn btn-primary">
             Войти
           </button>

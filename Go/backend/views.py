@@ -5,12 +5,30 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, SubcategorySerializer
 from .serializers import (
-    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer
+    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
 )
 from .models import CustomUser, Subcategory, Country, Region, City, Category
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.views import APIView
+
+
+class PasswordResetRequestView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = PasswordResetSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.send_reset_email(serializer.validated_data['email'])
+            return Response({"message": "Ссылка для сброса пароля отправлена на ваш email."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetConfirmView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Пароль успешно сброшен."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RegisterView(generics.CreateAPIView):
