@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from .models import CustomUser, City, Category, Subcategory, Region, Country
 from rest_framework_simplejwt.tokens import RefreshToken
+import requests
+import sys
+import json
+import os
 
+SMARTCAPTCHA_SERVER_KEY = os.getenv("SMARTCAPTCHA_SERVER_KEY", "")
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,15 +15,30 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    captcha_token = serializers.CharField(write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
-        model = CustomUser  # Используем CustomUser вместо User
-        fields = ('username', 'password', 'email', 'token')
+        model = CustomUser
+        fields = ('username', 'password', 'email', 'captcha_token', 'token')
         extra_kwargs = {'password': {'write_only': True}}
 
+    def validate_captcha_token(self, token):
+        response = requests.get(
+            "https://smartcaptcha.yandexcloud.net/validate",
+            params={
+                "secret": SMARTCAPTCHA_SERVER_KEY,
+                "token": token,
+            },
+            timeout=1
+        )
+        if response.status_code != 200 or not response.json().get("status") == "ok":
+            raise serializers.ValidationError("Капча не пройдена.")
+        return token
+
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(  # Используем CustomUser вместо User
+        validated_data.pop('captcha_token')  # Удаляем токен капчи после проверки
+        user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password']
@@ -26,7 +46,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         refresh = RefreshToken.for_user(user)
         user.token = str(refresh.access_token)
         return user
-
+    
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:

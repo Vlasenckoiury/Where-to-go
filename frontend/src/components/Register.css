@@ -19,3 +19,8 @@
 .btn-home:hover {
   background-color: #867bb6; /* меняет цвет при наведении */
 }
+
+.smart-captcha {
+  height: 120px;
+  margin-top: 80px;
+}

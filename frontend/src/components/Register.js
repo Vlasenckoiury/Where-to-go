@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import { SmartCaptcha } from '@yandex/smart-captcha';
+
+
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -9,6 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -16,11 +20,17 @@ const Register = () => {
     setError("");
     setSuccess("");
 
+    if (!captchaToken) {
+      setError("Пожалуйста, пройдите проверку капчи.");
+      return;
+    }
+
     try {
       await axios.post("http://localhost:8000/api/register/", {
         username,
         email,
         password,
+        captcha_token: captchaToken,
       });
 
       setSuccess("Регистрация прошла успешно!");
@@ -80,7 +90,8 @@ const Register = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <SmartCaptcha sitekey={process.env.REACT_APP_SMARTCAPTCHA_SITEKEY} onSuccess={(token) => setCaptchaToken(token)} />
+          <button type="submit" className="btn btn-primary" disabled={!captchaToken} >
             Сохранить
           </button>
         </form>
