@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ResetPassword = () => {
@@ -7,6 +7,7 @@ const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +19,7 @@ const ResetPassword = () => {
       });
       setMessage(response.data.message);
       setError("");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(err.response.data || "Ошибка сброса пароля.");
       setMessage("");
@@ -25,20 +27,24 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-5">
       <h2>Сброс пароля</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="Введите новый пароль"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Сбросить пароль</button>
+        <div className="mb-3">
+          <label htmlFor="newPassword" className="form-label">Новый пароль</label>
+          <input
+            type="password"
+            className="form-control"
+            id="newPassword"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">Сбросить пароль</button>
       </form>
-      {message && <p>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {message && <div className="alert alert-success">{message}</div>}
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };
