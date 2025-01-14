@@ -19,7 +19,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #bcbec0; /* Цвет фона */
+  background-color: #c7deff !important; /* Цвет фона */
   z-index: 1000; /* Уровень слоя (над остальными элементами) */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
   padding-bottom: 2px;
@@ -192,3 +192,25 @@ body {
 }
 
 
+.nav-link-login {
+  margin-right: 15px;
+  font-size: 18px;
+  display: inline-block; /* Чтобы применить border-radius корректно */
+  color: green;          /* Задаем зеленый цвет текста */
+  background-color: transparent; /* Если нужен цвет фона */
+  border: 1px solid green; /* Если хотите рамку */
+  border-radius: 5px;     /* Закругляем края */
+  padding: 5px 10px;      /* Добавляем отступы для удобства */
+  text-decoration: none; 
+}
+
+.nav-link-register {
+  font-size: 18px;
+  display: inline-block; /* Чтобы применить border-radius корректно */
+  color: rgb(65, 66, 170);          /* Задаем зеленый цвет текста */
+  background-color: transparent; /* Если нужен цвет фона */
+  border: 1px solid rgb(65, 66, 170);; /* Если хотите рамку */
+  border-radius: 5px;     /* Закругляем края */
+  padding: 5px 10px;      /* Добавляем отступы для удобства */
+  text-decoration: none; 
+}

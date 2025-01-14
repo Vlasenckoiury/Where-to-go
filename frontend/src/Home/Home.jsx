@@ -61,13 +61,13 @@ const Home = () => {
               </li>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/login">
+                <li className="nav-login">
+                  <Link className="nav-link-login" to="/login">
                     Войти
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/register">
+                <li className="nav-register">
+                  <Link className="nav-link-register" to="/register">
                     Регистрация
                   </Link>
                 </li>
