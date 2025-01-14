@@ -2,7 +2,6 @@
 import psycopg2
 from functools import wraps
 import os
-# from dotenv import load_dotenv
 
 
 def db_connection(func):
@@ -44,6 +43,92 @@ def insert_tg(cursor, user_id, username, first_name, last_name):
 
 @db_connection
 def get_countries(cursor):
-    cursor.execute("SELECT name FROM countries")
-    countries = [row[0] for row in cursor.fetchall()]
-    return countries
+    try:
+        cursor.execute("SELECT name FROM public.backend_country")
+        countries = [row[0] for row in cursor.fetchall()]
+        return countries
+    except Exception as err:
+        print(f"Страна не получена {err}")
+
+
+@db_connection
+def get_regions(cursor, country_name):
+    try:
+        cursor.execute("""
+        SELECT backend_region.name FROM backend_region
+        JOIN backend_country ON backend_region.country_id = backend_country.id
+        WHERE backend_country.name = %s
+        """, (country_name,))
+        regions = [row[0] for row in cursor.fetchall()]
+        return regions
+    except Exception as err:
+        print(f'Области не получены {err}')
+
+
+@db_connection
+def get_cities(cursor, region_name):
+    try:
+        cursor.execute("""
+            SELECT backend_city.name FROM backend_city
+            JOIN backend_region ON backend_city.region_id = backend_region.id
+            WHERE backend_region.name = %s
+        """, (region_name,))
+        cities = [row[0] for row in cursor.fetchall()]
+        return cities
+    except Exception as err:
+        print(f"Города не получены {err}")
+
+
+@db_connection
+def get_categories(cursor):
+    try:
+        cursor.execute("SELECT id, name FROM backend_category")
+        return cursor.fetchall()
+    except Exception as err:
+        print(f"Категории не получены {err}")
+
+
+@db_connection
+def get_objects(cursor, city_name, category_id=None):
+    subcategory = [
+        "subcategories.name",
+        "subcategories.address",
+        "subcategories.phone",
+        "subcategories.description",
+        "subcategories.image",
+        "subcategories.opening_time",
+        "subcategories.closing_time",
+        "subcategories.is_friday",
+        "subcategories.is_monday",
+        "subcategories.is_saturday",
+        "subcategories.is_sunday",
+        "subcategories.is_thursday",
+        "subcategories.is_tuesday",
+        "subcategories.is_wednesday",
+        "subcategories.specific_date",
+        "subcategories.lunch_end",
+        "subcategories.lunch_start",
+    ]
+    try:
+        columns = ", ".join(subcategory)
+        if category_id is None:
+            query = f"""
+                SELECT {columns}
+                FROM backend_subcategory AS subcategories
+                JOIN backend_city AS cities ON subcategories.city_id = cities.id
+                WHERE cities.name = %s;
+            """
+            params = (city_name,)
+        else:
+            query = f"""
+                SELECT {columns}
+                FROM backend_subcategory AS subcategories
+                JOIN backend_city AS cities ON subcategories.city_id = cities.id
+                WHERE cities.name = %s AND subcategories.category_id = %s;
+            """
+            params = (city_name, category_id)
+
+        cursor.execute(query, params)
+        return cursor.fetchall()
+    except Exception as err:
+        print(f"Объекты не получены {err}")

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from backend.bot import bot
+from Where_to_go.Go.backend.bot import bot
 
 
 class Command(BaseCommand):
