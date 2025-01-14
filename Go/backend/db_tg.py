@@ -34,11 +34,19 @@ def db_connection(func):
 def insert_tg(cursor, user_id, username, first_name, last_name):
     # SQL-запрос для вставки данных
     insert_query = """
-    INSERT INTO av_car_botuser (telegram_id, username, first_name, last_name) VALUES (%s, %s, %s, %s)
+    INSERT INTO backend_botuser (telegram_id, username, first_name, last_name) VALUES (%s, %s, %s, %s)
     """
     # Выполнение запроса
     cursor.execute(insert_query, (user_id, username, first_name, last_name))
     print("Данные успешно сохранены в базе данных")
+
+
+@db_connection
+def get_contact(cursor, message):
+    update_query = f"""UPDATE backend_botuser SET contact = %s WHERE telegram_id = {message.chat.id}"""
+    # Выполнение запроса
+    cursor.execute(update_query, (message.contact.phone_number, ))
+    print(f"Значение в колонке {message.contact.phone_number} пользователя с telegram_id {message.chat.id} успешно обновлено в базе данных")
 
 
 @db_connection

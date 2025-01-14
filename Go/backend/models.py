@@ -103,4 +103,20 @@ class Subcategory(models.Model):
             ):
                 if self.specific_date:
                     raise ValidationError(_('Если выбраны дни недели, конкретная дата должна быть пустой.'))
+
+
+class BotUser(models.Model):
+    telegram_id = models.PositiveBigIntegerField(_('ID Telegram'), db_index=True, unique=True)
+    username = models.CharField(_('Username'), max_length=100, blank=True, null=True)
+    first_name = models.CharField(_('Имя'), max_length=100, blank=True, null=True)
+    last_name = models.CharField(_('Фамилия'), max_length=100, blank=True, null=True)
+    contact = models.CharField(_('Телефон'), max_length=100, blank=True, null=True)
+
+    class Meta:
+        app_label = "backend"
+        verbose_name = 'Пользователь бота'
+        verbose_name_plural = 'Пользователи бота'
+
+    def __str__(self):
+        return f'{self.telegram_id} {self.username}'
           
