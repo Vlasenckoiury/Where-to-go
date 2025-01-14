@@ -18,7 +18,7 @@ def send_welcome(message):
     last_name = message.from_user.last_name
     bot.send_message(message.chat.id, """🚶‍♂️‍➡️""",)
     bot.send_message(message.chat.id, f"""Добро пожаловать {first_name} в Where to go\nВыберите команду в <b>Меню</b>""",)
-    # return insert_tg(user_id, username, first_name, last_name)
+    return insert_tg(user_id, username, first_name, last_name)
 
 
 @bot.message_handler(commands=['go'])
@@ -104,7 +104,6 @@ def select_category(message, city_name):
         "subcategories.is_saturday": "суббота",
         "subcategories.is_sunday": "воскресенье",
     }
-    base_url = "http://127.0.0.1:8000"
     category_name = message.text
     if category_name == "Все Категории":
         # Фильтруем только по городу
@@ -144,6 +143,29 @@ def select_category(message, city_name):
             bot.send_message(message.chat.id, "Все объекты пусты или недоступны.")
     else:
         bot.send_message(message.chat.id, "Объекты не найдены.")
+
+
+@bot.message_handler(commands=['site'])
+def site(message):
+    reply_markup = types.InlineKeyboardMarkup()
+    button = types.InlineKeyboardButton(text='Открыть Сайт', url='https://av.by/')
+    reply_markup.add(button)
+    bot.send_message(message.from_user.id, "<b></b> 📰", parse_mode='HTML', reply_markup=reply_markup)
+
+
+@bot.message_handler(commands=['help'])
+def helps(message):
+    bot.send_message(message.chat.id, f'{message.from_user.first_name}\nВы можете обратиться в тех.поддержку по номеру:\n+375(29)111-11-11')
+    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)  # Подключаем клавиатуру
+    button_phone = types.KeyboardButton(text="Отправить телефон", request_contact=True)  # Указываем название кнопки, которая появится у пользователя
+    keyboard.add(button_phone)
+    bot.send_message(message.chat.id, 'Также можете поделиться номером телефона 📱\nи менеджер Вам перезвонит 📲', reply_markup=keyboard)
+
+
+@bot.message_handler(content_types=['contact'])
+def contact(message):
+    if message.contact is not None:
+        get_contact(message)
 
 
 bot.polling()
