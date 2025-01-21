@@ -139,6 +139,7 @@ def select_category(message, city_name):
         if response_lines:
             response = "\n\n".join(response_lines)  # Формируем итоговый ответ
             bot.send_message(message.chat.id, f"<b>Список объектов:</b>\n{response}", parse_mode="HTML")
+            bot.send_message(message.chat.id, f"<b>Для выбора новых объектов в menu выберите команду /go</b>", parse_mode="HTML")
         else:
             bot.send_message(message.chat.id, "Все объекты пусты или недоступны.")
     else:
@@ -148,7 +149,7 @@ def select_category(message, city_name):
 @bot.message_handler(commands=['site'])
 def site(message):
     reply_markup = types.InlineKeyboardMarkup()
-    button = types.InlineKeyboardButton(text='Открыть Сайт', url='https://av.by/')
+    button = types.InlineKeyboardButton(text='Открыть Сайт', url='https://yandex.by/maps/')
     reply_markup.add(button)
     bot.send_message(message.from_user.id, "<b></b> 📰", parse_mode='HTML', reply_markup=reply_markup)
 
