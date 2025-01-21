@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./SubcategoryList.css";
 
-
 const SubCategoryFilter = () => {
   const [countries, setCountries] = useState([]);
   const [regions, setRegions] = useState([]);
@@ -18,7 +17,8 @@ const SubCategoryFilter = () => {
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
   const [totalCount, setTotalCount] = useState("");
-  
+  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+
   useEffect(() => {
     // Загрузка стран при инициализации
     axios
@@ -42,16 +42,14 @@ const SubCategoryFilter = () => {
 
   const handleCountryChange = (countryId) => {
     setSelectedCountry(countryId);
-    setSelectedRegion(""); // Сбросить регион при смене страны
-    setSelectedCity(""); // Сбросить город при смене области
+    setSelectedRegion("");
+    setSelectedCity("");
     setRegions([]);
     setCities([]);
 
     if (countryId) {
       axios
-        .get(
-          `http://localhost:8000/api/regions/?country=${countryId}&no_paginate=true`
-        )
+        .get(`http://localhost:8000/api/regions/?country=${countryId}&no_paginate=true`)
         .then((response) => {
           setRegions(response.data || []);
         });
@@ -60,13 +58,11 @@ const SubCategoryFilter = () => {
 
   const handleRegionChange = (regionId) => {
     setSelectedRegion(regionId);
-    setSelectedCity(""); // Сбросить город при смене области
+    setSelectedCity("");
     setCities([]);
     if (regionId) {
       axios
-        .get(
-          `http://localhost:8000/api/cities/?region=${regionId}&no_paginate=true`
-        )
+        .get(`http://localhost:8000/api/cities/?region=${regionId}&no_paginate=true`)
         .then((response) => {
           setCities(response.data || []);
         });
@@ -75,14 +71,11 @@ const SubCategoryFilter = () => {
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
-    setSubcategories([]); // Очищаем подкатегории при смене категории
+    setSubcategories([]);
 
     if (categoryId) {
-      // Если категория выбрана, загружаем соответствующие подкатегории
       axios
-        .get(
-          `http://localhost:8000/api/category/?category=${categoryId}&no_paginate=true`
-        )
+        .get(`http://localhost:8000/api/category/?category=${categoryId}&no_paginate=true`)
         .then((response) => {
           setCategories(response.data || []);
         })
@@ -90,7 +83,6 @@ const SubCategoryFilter = () => {
           console.error("Ошибка загрузки категорий", error);
         });
     } else {
-      // Если категория сброшена, загружаем все категории
       axios
         .get("http://localhost:8000/api/category/?no_paginate=true")
         .then((response) => {
@@ -105,16 +97,16 @@ const SubCategoryFilter = () => {
   const handleFilter = async () => {
     setLoading(true);
     setError("");
-  
+
     const params = {};
     if (selectedCountry) params.country = selectedCountry;
     if (selectedRegion) params.region = selectedRegion;
     if (selectedCity) params.city = selectedCity;
     if (selectedCategory) params.category = selectedCategory;
-  
+
     try {
       const response = await axios.get("http://localhost:8000/api/subcategories/", { params });
-      processFilterResult(response.data); // Передаем результат в обработчик
+      processFilterResult(response.data);
     } catch (error) {
       setError("Ошибка загрузки объектов");
       console.error("Ошибка фильтрации:", error);
@@ -124,9 +116,9 @@ const SubCategoryFilter = () => {
   };
 
   const processFilterResult = (data) => {
-    setSubcategories(data.results || []); // Обновляем список подкатегорий
-    setNextPage(data.next || null); // Сохраняем ссылку на следующую страницу
-    setPrevPage(data.previous || null); // Сохраняем ссылку на предыдущую страницу
+    setSubcategories(data.results || []);
+    setNextPage(data.next || null);
+    setPrevPage(data.previous || null);
 
     if (data.count && data.count > 0) {
       setTotalCount(`Всего найдено: ${data.count} объектов`);
@@ -134,24 +126,30 @@ const SubCategoryFilter = () => {
       setTotalCount("Ничего не найдено");
     }
   };
-  
+
   const handleNextPage = () => {
     if (nextPage) {
       axios
         .get(nextPage)
-        .then((response) => processFilterResult(response.data))
+        .then((response) => {
+          processFilterResult(response.data);
+          window.scrollTo(0, 0);
+        })
         .catch((error) => {
           setError("Ошибка загрузки следующей страницы");
           console.error("Ошибка пагинации (следующая страница):", error);
         });
     }
   };
-  
+
   const handlePrevPage = () => {
     if (prevPage) {
       axios
         .get(prevPage)
-        .then((response) => processFilterResult(response.data))
+        .then((response) => {
+          processFilterResult(response.data);
+          window.scrollTo(0, 0);
+        })
         .catch((error) => {
           setError("Ошибка загрузки предыдущей страницы");
           console.error("Ошибка пагинации (предыдущая страница):", error);
@@ -164,7 +162,7 @@ const SubCategoryFilter = () => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-    return `${day}.${month}.${year} г.`; // Возвращаем дату в формате "день.месяц.год г."
+    return `${day}.${month}.${year} г.`;
   };
 
   const formatWorkingDays = (subcategory) => {
@@ -184,6 +182,14 @@ const SubCategoryFilter = () => {
         .map((day) => day.label)
         .join(", ") || "Не указано"
     );
+  };
+
+  const handleOpenModal = (subcategory) => {
+    setSelectedSubcategory(subcategory);
+  };
+
+  const closeModal = () => {
+    setSelectedSubcategory(null);
   };
 
   return (
@@ -258,82 +264,62 @@ const SubCategoryFilter = () => {
         <p>{totalCount}</p>
       </div>
       <div className="results-section">
-      <h3>
-        Выбирай куда идём сегодня
-        <img
-          src="/images/go-new.jpg" // Укажите путь к картинке
-          alt="small-icon"
-          style={{
-            width: '120px', // Размер картинки 
-            height: '50px',
-            verticalAlign: 'middle', // Выравнивание картинки по вертикали с текстом
-            marginRight: '10px', // Отступ между картинкой и текстом
-          }}
-        />
-      </h3>
+        <h3>
+          Выбирай куда идём сегодня
+          <img
+            src="/images/go-new.jpg"
+            alt="small-icon"
+            style={{
+              width: "120px",
+              height: "50px",
+              verticalAlign: "middle",
+              marginRight: "10px",
+            }}
+          />
+        </h3>
         <ul className="subcategory-list">
           {subcategories.length === 0 ? (
-            <p className="no-results">Вы пока что ничего не выбрали</p> // Если список пустой, отображаем текст
+            <p className="no-results">Вы пока что ничего не выбрали</p>
           ) : (
             subcategories.map((subcategory) => (
               <li key={subcategory.id} className="subcategory-item">
                 <div className="subcategory-content">
-                  <div className="subcategory-image">
+                  <div
+                    className="subcategory-image"
+                    onClick={() => handleOpenModal(subcategory)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <img
-                      src={subcategory.image || '/images/нет фото.jpg'}
+                      src={subcategory.image || "/images/нет фото.jpg"}
                       alt={subcategory.name}
-                      style={{ width: '250px', height: '320px', borderRadius: '10px', objectFit: 'contain', }}
+                      style={{
+                        width: "250px",
+                        height: "320px",
+                        borderRadius: "10px",
+                        objectFit: "contain",
+                      }}
                     />
                   </div>
                   <div className="subcategory-info">
-                    <h3>{subcategory.name || "Без названия"}</h3>
-                    <p>🏙 Город:  {subcategory.city.name || "Не указан"}</p>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i class="bi bi-border-width"style={{ marginRight: '10px' }}></i>
-                      <p>Категория:  {subcategory.category.name || "Не указан"}</p>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i class="bi bi-geo-alt-fill"style={{ marginRight: '10px' }}></i>
-                      <p>Адрес:  г.{subcategory.city.name}, {subcategory.address || "Не указан"}</p> 
-                    </div>  
-                    <p> 📞 Телефон:  {subcategory.phone || "Не указан"}</p>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i className="bi bi-clipboard-fill" style={{ marginRight: '10px' }}></i>
-                      <p style={{ margin: 0 }}>Описание: {subcategory.description || "Не указано"}</p>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i className="bi bi-alarm-fill" style={{ marginRight: '10px' }}></i>
+                    <h3
+                      onClick={() => handleOpenModal(subcategory)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {subcategory.name || "Без названия"}
+                    </h3>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <i className="bi bi-geo-alt-fill" style={{ marginRight: "10px" }}></i>
                       <p>
-                        Время работы:  {subcategory.opening_time || "Не указано"} -{" "}
-                        {subcategory.closing_time || "Не указано"}
+                        Адрес: г.{subcategory.city?.name}, {subcategory.address || "Не указан"}
                       </p>
                     </div>
-                    {(subcategory.lunch_start || subcategory.lunch_end) && (
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <i className="bi bi-clock-fill" style={{ marginRight: '10px' }}></i>
-                        {subcategory.lunch_start && (
-                          <p><strong>Обед с:  </strong>{subcategory.lunch_start}</p>
-                        )}
-                        {subcategory.lunch_end && (
-                          <p><strong>До: </strong> {subcategory.lunch_end}</p>
-                        )}
-                      </div>
-                    )}
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <i className="bi bi-calendar-check-fill" style={{ marginRight: '10px' }}></i>
-                      <p>
-                      {subcategory.specific_date
-                        ? `Дата: ${formatDate(subcategory.specific_date)}`
-                        : `Дни работы: ${formatWorkingDays(subcategory)}`}
-                      </p>
-                    </div>                   
                   </div>
                 </div>
               </li>
             ))
           )}
-          </ul>
-        <div className={`button-pagination ${subcategories.length === 0 ? 'empty' : ''}`}>
+        </ul>
+        <div className={`button-pagination ${subcategories.length === 0 ? "empty" : ""}`}>
           <button onClick={handlePrevPage} disabled={!prevPage}>
             Назад
           </button>
@@ -342,6 +328,97 @@ const SubCategoryFilter = () => {
           </button>
         </div>
       </div>
+
+      {/* Модальное окно */}
+      {selectedSubcategory && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div
+            className="modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="modal-close" onClick={closeModal}>
+              ✖
+            </button>
+            <div className="modal-image">
+              <img
+                src={selectedSubcategory.image || "/images/нет фото.jpg"}
+                alt={selectedSubcategory.name}
+              />
+            </div>
+            <div className="modal-details">
+              <h3>{selectedSubcategory.name || "Без названия"}</h3>
+              <p>🏙 Город: {selectedSubcategory.city?.name || "Не указан"}</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i className="bi bi-border-width" style={{ marginRight: "10px" }}></i>
+                <p>Категория: {selectedSubcategory.category?.name || "Не указан"}</p>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i className="bi bi-geo-alt-fill" style={{ marginRight: "10px" }}></i>
+                <p>
+                  Адрес: г.{selectedSubcategory.city?.name}, {selectedSubcategory.address || "Не указан"}
+                </p>
+              </div>
+              <p>📞 Телефон: {selectedSubcategory.phone || "Не указан"}</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i className="bi bi-clipboard-fill" style={{ marginRight: "10px" }}></i>
+                <p style={{ margin: 0 }}>
+                  Описание: {selectedSubcategory.description || "Не указано"}
+                </p>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i className="bi bi-alarm-fill" style={{ marginRight: "10px" }}></i>
+                <p>
+                  Время работы: {selectedSubcategory.opening_time || "Не указано"} -{" "}
+                  {selectedSubcategory.closing_time || "Не указано"}
+                </p>
+              </div>
+              {(selectedSubcategory.lunch_start || selectedSubcategory.lunch_end) && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <i className="bi bi-clock-fill" style={{ marginRight: "10px" }}></i>
+                  {selectedSubcategory.lunch_start && (
+                    <p>
+                      <strong>Обед с: </strong>
+                      {selectedSubcategory.lunch_start}
+                    </p>
+                  )}
+                  {selectedSubcategory.lunch_end && (
+                    <p>
+                      <strong>До: </strong> {selectedSubcategory.lunch_end}
+                    </p>
+                  )}
+                </div>
+              )}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i className="bi bi-calendar-check-fill" style={{ marginRight: "10px" }}></i>
+                <p>
+                  {selectedSubcategory.specific_date
+                    ? `Дата: ${formatDate(selectedSubcategory.specific_date)}`
+                    : `Дни работы: ${formatWorkingDays(selectedSubcategory)}`}
+                </p>
+              </div>
+              {selectedSubcategory.reservation_url && (
+                <a
+                  href={selectedSubcategory.reservation_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="reservation-button"
+                  style={{
+                    display: "inline-block",
+                    padding: "10px 20px",
+                    color: "#fff",
+                    backgroundColor: "#007bff",
+                    textDecoration: "none",
+                    borderRadius: "5px",
+                    marginTop: "20px",
+                  }}
+                >
+                  Заказать столик
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

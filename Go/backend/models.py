@@ -65,6 +65,7 @@ class Subcategory(models.Model):
     address = models.CharField(_('Адрес'), max_length=255, blank=True, null=True)
     phone = models.CharField(_('Телефон'), max_length=20, blank=True, null=True)
     description = models.TextField(_('Описание'), blank=True, null=True)
+    reservation_url = models.URLField(blank=True, null=True)
     image = models.ImageField(_('Изображение'), upload_to='images/', blank=True, null=True)
     opening_time = models.TimeField(_('Время открытия'), null=True, blank=True, help_text='Пример ввода времени: 10:00:00')
     closing_time = models.TimeField(_('Время закрытия'), null=True, blank=True, help_text='Пример ввода времени: 10:00:00')
