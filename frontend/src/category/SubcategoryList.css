@@ -69,49 +69,75 @@ button.filter-button:hover {
   text-align: center;
   font-size: 36px;
 }
+/* Стили для контейнера с карточками */
 .subcategory-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Две карточки в ряду */
+  gap: 20px; /* Расстояние между карточками */
+  list-style: none; /* Убираем маркеры списка */
+  padding: 0; /* Убираем отступы у списка */
+  max-width: 1200px; /* Ограничиваем максимальную ширину контейнера */
+  margin: 0 auto; /* Центрируем контейнер */
 }
 
+/* Стили для каждой карточки */
 .subcategory-item {
+  background-color: #fff; /* Фон карточки */
+  border: 1px solid #ddd; /* Граница карточки */
+  border-radius: 10px; /* Скругление углов */
+  overflow: hidden; /* Обрезаем содержимое, чтобы не выходило за границы */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для карточки */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при наведении */
   display: flex;
-  align-items: center;
-  gap: 15px;
-  background-color: #f9f9f9;
-  margin-bottom: 15px;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  flex-direction: column; /* Располагаем элементы вертикально */
+  height: 500px; /* Высота карточки */
 }
 
-.subcategory-content {
-  display: flex;
-  width: 100%;
+.subcategory-item:hover {
+  transform: translateY(-5px); /* Поднимаем карточку при наведении */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Увеличиваем тень при наведении */
 }
 
+/* Стили для изображения в карточке */
 .subcategory-image {
-  flex: 0 0 auto; /* Фиксированный размер для изображения */
+  width: 100%; /* Ширина изображения на всю карточку */
+  height: 300px; /* Высота изображения */
+  overflow: hidden; /* Обрезаем изображение, чтобы оно не выходило за границы */
+  display: flex;
+  justify-content: center; /* Выравниваем изображение по центру по горизонтали */
+  align-items: center; /* Выравниваем изображение по центру по вертикали */
 }
 
+.subcategory-image img {
+  width: 100%; /* Ширина изображения на всю карточку */
+  height: 100%; /* Высота изображения на всю карточку */
+  object-fit: cover; /* Обрезаем изображение, чтобы оно заполняло контейнер */
+}
+
+/* Стили для информации в карточке */
 .subcategory-info {
-  margin-left: 15px;
-  flex: 1;
+  padding: 20px; /* Отступы внутри карточки */
+  flex-grow: 1; /* Растягиваем блок с информацией на всю доступную высоту */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Распределяем пространство между элементами */
 }
 
 .subcategory-info h3 {
-  margin-bottom: 10px;
-  text-align: center;
+  margin: 0 0 10px; /* Отступы для заголовка */
+  font-size: 1.8em; /* Большой размер шрифта для названия */
+  color: #333; /* Цвет текста */
 }
 
 .subcategory-info p {
-  margin: 5px 0;
-  font-size: 16px;
-  color: #070707;
+  margin: 0; /* Убираем отступы у текста */
+  font-size: 1.1em; /* Размер шрифта текста */
+  color: #555; /* Цвет текста */
+}
+
+/* Стили для иконки адреса */
+.subcategory-info .bi-geo-alt-fill {
+  color: #007bff; /* Цвет иконки */
 }
 
 /* Кнопки пагинации */
