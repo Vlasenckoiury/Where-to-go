@@ -412,7 +412,7 @@ const SubCategoryFilter = () => {
                     marginTop: "20px",
                   }}
                 >
-                  Заказать столик
+                  Забронировать
                 </a>
               )}
             </div>

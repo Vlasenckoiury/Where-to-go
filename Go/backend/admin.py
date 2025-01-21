@@ -7,11 +7,11 @@ admin.site.register(CustomUser)
 
 @admin.register(Subcategory)
 class SubcategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'city', 'get_working_days', 'specific_date')
+    list_display = ('name', 'category', 'city', 'get_working_days', 'specific_date', 'reservation_url')
     search_fields = ('name', 'category__name')
     fieldsets = (
         (None, {
-            'fields': ('city', 'category', 'name', 'address', 'phone', 'description', 'image', 'specific_date')
+            'fields': ('city', 'category', 'name', 'address', 'phone', 'description', 'image', 'specific_date', 'reservation_url')
         }),
         ('Время работы', {
             'fields': ('opening_time', 'closing_time', 

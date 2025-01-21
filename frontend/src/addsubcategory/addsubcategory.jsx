@@ -23,6 +23,7 @@ const SubCategoryAdd = () => {
     is_sunday: false,
     specific_date: "",
     image: null,
+    reservation_url: "",
   });
   const [file, setFile] = useState(null);
   const [countries, setCountries] = useState([]);
@@ -172,6 +173,7 @@ const SubCategoryAdd = () => {
       sendData.append("is_saturday", formData.is_saturday ? "1" : "0");
       sendData.append("is_sunday", formData.is_sunday ? "1" : "0");
       sendData.append("specific_date", formData.specific_date || "");
+      sendData.append("reservation_url", formData.reservation_url || "");
   
       // Если есть изображение, добавляем его в FormData
       if (file) {
@@ -203,6 +205,7 @@ const SubCategoryAdd = () => {
         is_saturday: false,
         is_sunday: false,
         specific_date: "",
+        reservation_url: "",
       });
       setFile(null);  // Сбрасываем файл после успешной отправки
   
@@ -487,6 +490,18 @@ const SubCategoryAdd = () => {
             name="specific_date"
             value={formData.specific_date}
             onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-row">
+          <label htmlFor="reservation_url">Ссылка на бронирование</label>
+          <input
+            type="url"
+            id="reservation_url"
+            name="reservation_url"
+            value={formData.reservation_url}
+            onChange={handleChange}
+            placeholder="Введите ссылку для бронирования"
           />
         </div>
 
