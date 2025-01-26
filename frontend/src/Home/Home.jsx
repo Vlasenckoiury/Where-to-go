@@ -6,7 +6,11 @@ import SubCategoryFilter from "../category/SubcategoryList";
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(() => {
+    // Загружаем избранное из localStorage при первом рендере
+    const savedFavorites = localStorage.getItem("favorites");
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -30,13 +34,22 @@ const Home = () => {
 
   const handleFavoriteClick = (subcategory) => {
     setFavorites((prevFavorites) => {
+      let updatedFavorites;
+
       if (prevFavorites.some((fav) => fav.id === subcategory.id)) {
         // Удаляем элемент из избранного
-        return prevFavorites.filter((fav) => fav.id !== subcategory.id);
+        updatedFavorites = prevFavorites.filter(
+          (fav) => fav.id !== subcategory.id
+        );
       } else {
         // Добавляем элемент в избранное
-        return [...prevFavorites, subcategory];
+        updatedFavorites = [...prevFavorites, subcategory];
       }
+
+      // Сохраняем обновленный список в localStorage
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+      return updatedFavorites;
     });
   };
 
