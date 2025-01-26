@@ -79,7 +79,7 @@ const Home = () => {
               {isAuthenticated ? (
                 <li className="nav-item">
                   <div className="favorites-link-container">
-                    <button onClick={handleOpenFavoritesModal} style={{ background: "none", border: "none" }}>
+                    <button onClick={handleOpenFavoritesModal} className="favorites-link-button">
                       <p className="favorites-link">Избранное</p>
                       <FaHeart size={27} color="red" />
                       <span>{favorites.length}</span>

@@ -82,6 +82,15 @@ button.filter-button:hover {
   margin: 0 auto; /* Центрируем контейнер */
 }
 
+/* Стили для сообщения об отсутствии результатов */
+.no-results {
+  grid-column: 1 / -1; /* Сообщение занимает всю ширину списка */
+  text-align: center; /* Центрируем текст внутри элемента */
+  font-size: 38px; /* Размер шрифта */
+  color: #e90101; /* Цвет текста */
+  margin-top: 100px;
+}
+
 /* Стили для каждой карточки */
 .subcategory-item {
   background-color: #fff; /* Фон карточки */
