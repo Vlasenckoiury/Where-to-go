@@ -127,8 +127,8 @@ const Home = () => {
       </nav>
       {/* Модальное окно для избранных */}
       {isFavoritesModalOpen && (
-        <div className="modal-overlay" onClick={handleCloseFavoritesModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-overlay-favorites" onClick={handleCloseFavoritesModal}>
+          <div className="modal-content-favorites" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={handleCloseFavoritesModal}>
               ✖
             </button>

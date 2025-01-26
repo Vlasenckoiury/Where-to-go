@@ -21,6 +21,66 @@ const SubCategoryFilter = ({ toggleFavorite, favorites }) => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
 
   useEffect(() => {
+    // Восстановление состояния из localStorage
+    const savedFilters = JSON.parse(localStorage.getItem("filters"));
+    const savedSubcategories = JSON.parse(localStorage.getItem("subcategories"));
+    const savedPagination = JSON.parse(localStorage.getItem("pagination"));
+  
+    if (savedFilters) {
+      setSelectedCountry(savedFilters.country || "");
+      setSelectedRegion(savedFilters.region || "");
+      setSelectedCity(savedFilters.city || "");
+      setSelectedCategory(savedFilters.category || "");
+    }
+  
+    if (savedSubcategories) {
+      setSubcategories(savedSubcategories || []);
+    }
+  
+    if (savedPagination) {
+      setNextPage(savedPagination.next || null);
+      setPrevPage(savedPagination.prev || null);
+      setTotalCount(savedPagination.totalCount || "");
+    }
+  }, []);
+
+  const processFilterResult = (data) => {
+    const results = data.results || [];
+    setSubcategories(results);
+    setNextPage(data.next || null);
+    setPrevPage(data.previous || null);
+  
+    const countText = data.count && data.count > 0 
+      ? `Всего найдено: ${data.count} объектов` 
+      : "Ничего не найдено";
+    setTotalCount(countText);
+  
+    // Сохранение данных в localStorage
+    localStorage.setItem("subcategories", JSON.stringify(results));
+    localStorage.setItem(
+      "pagination",
+      JSON.stringify({
+        next: data.next || null,
+        prev: data.previous || null,
+        totalCount: countText,
+      })
+    );
+  };
+  
+  useEffect(() => {
+    // Сохранение фильтров
+    localStorage.setItem(
+      "filters",
+      JSON.stringify({
+        country: selectedCountry,
+      region: selectedRegion,
+      city: selectedCity,
+      category: selectedCategory,
+      })
+    );
+  }, [selectedCountry, selectedRegion, selectedCity, selectedCategory]);
+
+  useEffect(() => {
     // Загрузка стран при инициализации
     axios
       .get("http://localhost:8000/api/countries/")
@@ -116,17 +176,17 @@ const SubCategoryFilter = ({ toggleFavorite, favorites }) => {
     }
   };
 
-  const processFilterResult = (data) => {
-    setSubcategories(data.results || []);
-    setNextPage(data.next || null);
-    setPrevPage(data.previous || null);
+  // const processFilterResult = (data) => {
+  //   setSubcategories(data.results || []);
+  //   setNextPage(data.next || null);
+  //   setPrevPage(data.previous || null);
 
-    if (data.count && data.count > 0) {
-      setTotalCount(`Всего найдено: ${data.count} объектов`);
-    } else {
-      setTotalCount("Ничего не найдено");
-    }
-  };
+  //   if (data.count && data.count > 0) {
+  //     setTotalCount(`Всего найдено: ${data.count} объектов`);
+  //   } else {
+  //     setTotalCount("Ничего не найдено");
+  //   }
+  // };
 
   const handleNextPage = () => {
     if (nextPage) {

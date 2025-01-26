@@ -217,6 +217,10 @@ body {
 
 /* Стили для списка избранных */
 
+.modal-content-favorites {
+  flex-direction: column;
+}
+
 .favorites-link-button {
   background: none;
   border: none;
