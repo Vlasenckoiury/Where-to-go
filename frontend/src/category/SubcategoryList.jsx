@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./SubcategoryList.css";
 
-const SubCategoryFilter = () => {
+const SubCategoryFilter = ({ toggleFavorite, favorites }) => {
   const [countries, setCountries] = useState([]);
   const [regions, setRegions] = useState([]);
   const [cities, setCities] = useState([]);
@@ -308,10 +309,28 @@ const SubCategoryFilter = () => {
                       {subcategory.name || "Без названия"}
                     </h3>
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <i className="bi bi-geo-alt-fill" style={{ marginRight: "10px" }}></i>
+                      <i
+                        className="bi bi-geo-alt-fill"
+                        style={{ marginRight: "10px" }}
+                      ></i>
                       <p>
-                        Адрес: г.{subcategory.city?.name}, {subcategory.address || "Не указан"}
+                        Адрес: г.{subcategory.city?.name},{" "}
+                        {subcategory.address || "Не указан"}
                       </p>
+                    </div>
+                    <div className="favorite-button-container">
+                      <button
+                        onClick={() => toggleFavorite(subcategory)} // Вызов функции handleFavoriteClick
+                        style={{ background: "none", border: "none", cursor: "pointer" }}
+                      >
+                        {favorites.some((fav) => fav.id === subcategory.id) ? (
+                          <FaHeart size={32} color="red" />
+                        ) : (
+                          <FaRegHeart size={28
+                            
+                          } color="gray" />
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -319,7 +338,11 @@ const SubCategoryFilter = () => {
             ))
           )}
         </ul>
-        <div className={`button-pagination ${subcategories.length === 0 ? "empty" : ""}`}>
+        <div
+          className={`button-pagination ${
+            subcategories.length === 0 ? "empty" : ""
+          }`}
+        >
           <button onClick={handlePrevPage} disabled={!prevPage}>
             Назад
           </button>
@@ -332,10 +355,7 @@ const SubCategoryFilter = () => {
       {/* Модальное окно */}
       {selectedSubcategory && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>
               ✖
             </button>
@@ -349,32 +369,52 @@ const SubCategoryFilter = () => {
               <h3>{selectedSubcategory.name || "Без названия"}</h3>
               <p>🏙 Город: {selectedSubcategory.city?.name || "Не указан"}</p>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <i className="bi bi-border-width" style={{ marginRight: "10px" }}></i>
-                <p>Категория: {selectedSubcategory.category?.name || "Не указан"}</p>
+                <i
+                  className="bi bi-border-width"
+                  style={{ marginRight: "10px" }}
+                ></i>
+                <p>
+                  Категория: {selectedSubcategory.category?.name || "Не указан"}
+                </p>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <i className="bi bi-geo-alt-fill" style={{ marginRight: "10px" }}></i>
+                <i
+                  className="bi bi-geo-alt-fill"
+                  style={{ marginRight: "10px" }}
+                ></i>
                 <p>
-                  Адрес: г.{selectedSubcategory.city?.name}, {selectedSubcategory.address || "Не указан"}
+                  Адрес: г.{selectedSubcategory.city?.name},{" "}
+                  {selectedSubcategory.address || "Не указан"}
                 </p>
               </div>
               <p>📞 Телефон: {selectedSubcategory.phone || "Не указан"}</p>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <i className="bi bi-clipboard-fill" style={{ marginRight: "10px" }}></i>
+                <i
+                  className="bi bi-clipboard-fill"
+                  style={{ marginRight: "10px" }}
+                ></i>
                 <p style={{ margin: 0 }}>
                   Описание: {selectedSubcategory.description || "Не указано"}
                 </p>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <i className="bi bi-alarm-fill" style={{ marginRight: "10px" }}></i>
+                <i
+                  className="bi bi-alarm-fill"
+                  style={{ marginRight: "10px" }}
+                ></i>
                 <p>
-                  Время работы: {selectedSubcategory.opening_time || "Не указано"} -{" "}
+                  Время работы:{" "}
+                  {selectedSubcategory.opening_time || "Не указано"} -{" "}
                   {selectedSubcategory.closing_time || "Не указано"}
                 </p>
               </div>
-              {(selectedSubcategory.lunch_start || selectedSubcategory.lunch_end) && (
+              {(selectedSubcategory.lunch_start ||
+                selectedSubcategory.lunch_end) && (
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <i className="bi bi-clock-fill" style={{ marginRight: "10px" }}></i>
+                  <i
+                    className="bi bi-clock-fill"
+                    style={{ marginRight: "10px" }}
+                  ></i>
                   {selectedSubcategory.lunch_start && (
                     <p>
                       <strong>Обед с: </strong>
@@ -389,7 +429,10 @@ const SubCategoryFilter = () => {
                 </div>
               )}
               <div style={{ display: "flex", alignItems: "center" }}>
-                <i className="bi bi-calendar-check-fill" style={{ marginRight: "10px" }}></i>
+                <i
+                  className="bi bi-calendar-check-fill"
+                  style={{ marginRight: "10px" }}
+                ></i>
                 <p>
                   {selectedSubcategory.specific_date
                     ? `Дата: ${formatDate(selectedSubcategory.specific_date)}`

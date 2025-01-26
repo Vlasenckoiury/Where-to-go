@@ -50,18 +50,18 @@ body {
 
 .navbar-nav {
   display: flex;
-  justify-content: flex-end; /* Aligns the buttons to the right of the navbar */
+  justify-content: flex-end; 
   width: 100%;
 }
 
 .nav-item {
   display: flex;
-  align-items: center; /* Aligns buttons vertically in the center */
+  align-items: center; 
 }
 
 .button-container {
   display: flex;
-  gap: 10px; /* Adds space between the buttons */
+  gap: 10px; 
 }
 
 .addcategory {
@@ -213,4 +213,46 @@ body {
   border-radius: 5px;     /* Закругляем края */
   padding: 5px 10px;      /* Добавляем отступы для удобства */
   text-decoration: none; 
+}
+
+/* Стили для списка избранных */
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.favorite-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.favorite-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.favorite-item h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.favorite-item p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+span {
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.favorites-link{
+  font-weight: bold;
 }

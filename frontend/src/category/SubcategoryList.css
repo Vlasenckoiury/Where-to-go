@@ -3,6 +3,7 @@
   display: flex;
   gap: 20px; /* Отступ между секциями */
   margin: 20px;
+  overflow-y: auto; /* Добавляем прокрутку для всего контейнера */
 }
 /* Левая секция фильтров */
 .filter-section {
@@ -12,6 +13,7 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 15px;
+  margin-right: 20px;
 }
 
 /* Элементы формы */
@@ -261,3 +263,11 @@ button.filter-button:hover {
 .reservation-button:hover {
   background-color: #0056b3;
 }
+
+/* Стили для иконки сердечка */
+.favorite-icon {
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+
