@@ -109,6 +109,13 @@ const Home = () => {
                 </li>
               ) : (
                 <>
+                  <div className="favorites-link-container">
+                    <button onClick={handleOpenFavoritesModal} className="favorites-link-button">
+                      <p className="favorites-link">Избранное</p>
+                      <FaHeart size={27} color="red" />
+                      <span>{favorites.length}</span>
+                    </button>
+                  </div>
                   <li className="nav-login">
                     <Link className="nav-link-login" to="/login">
                       Войти
