@@ -15,6 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     try {
       const response = await axios.post("http://localhost:8000/api/login/", {
@@ -32,7 +33,7 @@ const Login = () => {
 
       setSuccess("Вы успешно вошли!");
       // Перенаправляем на домашнюю страницу
-      navigate("/");
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       setError("Неправильно введён логин или пароль");
     }
@@ -48,6 +49,7 @@ const Login = () => {
       <div className="login-form">
         <h2>Войти</h2>
         {error && <div className="danger">{error}</div>}
+        {success && <div className="alert alert-success">{success}</div>}
         <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
