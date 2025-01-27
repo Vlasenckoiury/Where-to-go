@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { useAuth } from "./AuthContext"; // Импортируем useAuth
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [success, setSuccess] = useState("");
+  const { login } = useAuth(); // Используем метод login из контекста
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,6 +27,10 @@ const Login = () => {
       
       localStorage.setItem("refresh_token", response.data.refresh);
 
+      // Обновляем состояние авторизации
+      login(response.data.access); // Передаем access token в метод login
+
+      setSuccess("Вы успешно вошли!");
       // Перенаправляем на домашнюю страницу
       navigate("/");
     } catch (err) {

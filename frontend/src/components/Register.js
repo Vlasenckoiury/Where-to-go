@@ -3,8 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import { SmartCaptcha } from '@yandex/smart-captcha';
-
-
+import { useAuth } from "./AuthContext"; // Импортируем контекст
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -14,6 +13,7 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const [captchaToken, setCaptchaToken] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth(); // Используем метод login из контекста
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -26,15 +26,18 @@ const Register = () => {
     }
 
     try {
-      await axios.post("http://localhost:8000/api/register/", {
+      const response = await axios.post("http://localhost:8000/api/register/", {
         username,
         email,
         password,
         captcha_token: captchaToken,
       });
 
+      // Сохраняем токен в localStorage и обновляем состояние авторизации
+      login(response.data.token);
+
       setSuccess("Регистрация прошла успешно!");
-      setTimeout(() => navigate("/login"), 2000); // Перенаправляем на страницу логина через 2 секунды
+      setTimeout(() => navigate("/"), 2000); // Перенаправляем на главную страницу через 2 секунды
     } catch (err) {
       setError(
         err.response?.data?.message || "Ошибка регистрации. Попробуйте ещё раз."
@@ -44,7 +47,6 @@ const Register = () => {
 
   return (
     <div>
-      {/* Кнопка "Главная" */}
       <a href="/" className="btn-home">Главная</a>
       <div className="container mt-5">
         <h2>Регистрация</h2>
@@ -91,7 +93,7 @@ const Register = () => {
             />
           </div>
           <SmartCaptcha sitekey={process.env.REACT_APP_SMARTCAPTCHA_SITEKEY} onSuccess={(token) => setCaptchaToken(token)} />
-          <button type="submit" className="btn btn-primary" disabled={!captchaToken} >
+          <button type="submit" className="btn btn-primary" disabled={!captchaToken}>
             Сохранить
           </button>
         </form>

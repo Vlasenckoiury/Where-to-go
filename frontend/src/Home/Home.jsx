@@ -3,9 +3,10 @@ import { useNavigate, Link } from "react-router-dom";
 import "./Home.css";
 import { FaHeart } from "react-icons/fa";
 import SubCategoryFilter from "../category/SubcategoryList";
+import { useAuth } from "../components/AuthContext";
 
 const Home = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated } = useAuth();
   const [favorites, setFavorites] = useState(() => {
     // Загружаем избранное из localStorage при первом рендере
     const savedFavorites = localStorage.getItem("favorites");
@@ -13,22 +14,19 @@ const Home = () => {
   });
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   // Проверка аутентификации при загрузке компонента
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
+      // Состояние авторизации уже управляется через AuthContext
     }
   }, []);
 
   // Функция выхода из системы
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    setIsAuthenticated(false);
+    logout(); // Используем метод logout из контекста
     navigate("/login");
   };
 
