@@ -219,53 +219,122 @@ body {
 
 /* Стили для списка избранных */
 
-.modal-content-favorites {
-  flex-direction: column;
+.favorites-link{
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .favorites-link-button {
   background: none;
   border: none;
   margin-right: 25px;
+} 
+
+.favorites-count {
+  font-size: 20px;
+  color: green;
+}
+
+/* Стили для контейнера кнопки "Избранное" */
+.favorites-link-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Стили для модального окна */
+.modal-overlay-favorites {
+  position: absolute;
+  top: 100%; /* Позиционируем модальное окно под кнопкой */
+  left: 50%; /* Смещение влево до середины кнопки */
+  transform: translateX(-50%); /* Центровка модального окна по горизонтали */
+  width: 600px; /* Ширина модального окна */
+  background-color: rgba(255, 255, 255, 0.95); /* Прозрачный белый фон */
+  border: 1px solid #f12a2a;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-content-favorites {
+  position: relative;
+  background-color: white; /* Белый фон */
+}
+
+/* Контейнер для заголовка и кнопки */
+.modal-header {
+  display: flex;
+  justify-content: space-between; /* Кнопка справа, текст по центру */
+  align-items: center; /* Выравнивание по вертикали */
+  width: 100%;
+}
+
+/* Стили для заголовка */
+.favorites-title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center; /* Выравниваем текст по центру */
+  flex-grow: 1; /* Заголовок занимает всю доступную ширину */
+  border-bottom: 1px solid #d91010;
+}
+
+/* Стили для кнопки закрытия */
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .favorites-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  max-height: 400px; /* Максимальная высота списка */
+  overflow-y: auto; /* Добавляем прокрутку, если список слишком длинный */
 }
 
 .favorite-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+  margin-bottom: 16px;
+  padding: 8px;
+  border-bottom: 1px solid #2e35ff; /* Разделитель между элементами */
 }
 
-.favorite-item img {
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
+.favorite-item-image {
+  width: 80px; /* Размер фото */
+  height: 80px;
+  border-radius: 8px;
   object-fit: cover;
+  margin-right: 16px;
 }
 
-.favorite-item h3 {
+.favorite-item-details {
+  flex: 1; /* Занимает оставшееся пространство */
+}
+
+.favorite-item-details h3 {
   margin: 0;
-  font-size: 1.2em;
-}
-
-.favorite-item p {
-  margin: 0;
-  font-size: 0.9em;
-  color: #555;
-}
-
-span {
-  margin-left: 5px;
-  font-size: 20px;
-}
-
-.favorites-link{
+  font-size: 16px;
   font-weight: bold;
 }
+
+.favorite-item-details p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.favorite-item-remove {
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.favorite-item-remove:hover {
+  background-color: #9b4c4c;
+}
+

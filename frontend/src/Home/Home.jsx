@@ -55,8 +55,8 @@ const Home = () => {
     setIsFavoritesModalOpen(true);
   };
 
-  const handleCloseFavoritesModal = () => {
-    setIsFavoritesModalOpen(false);
+  const handleCloseFavoritesModal = (e) => {
+    setIsFavoritesModalOpen(false); 
   };
 
   const removeFavorite = (subcategory) => {
@@ -96,8 +96,57 @@ const Home = () => {
                     <button onClick={handleOpenFavoritesModal} className="favorites-link-button">
                       <p className="favorites-link">Избранное</p>
                       <FaHeart size={27} color="red" />
-                      <span>{favorites.length}</span>
+                      <span className="favorites-count">{favorites.length}</span>
                     </button>
+                    {/* Модальное окно для избранных */}
+                    {isFavoritesModalOpen && (
+                      <div className="modal-overlay-favorites" onClick={handleCloseFavoritesModal}>
+                        <div className="modal-content-favorites" onClick={(e) => e.stopPropagation()}>
+                          <div className="modal-header">
+                            <h2 className="favorites-title">Избранное</h2>
+                            <button className="modal-close" onClick={handleCloseFavoritesModal}>✖</button>
+                          </div>
+                          <div className="favorites-list">
+                            {favorites.length === 0 ? (
+                              <p>Нет избранных карточек</p>
+                            ) : (
+                              favorites.map((fav) => (
+                                <div key={fav.id} className="favorite-item">
+                                  <img
+                                    src={fav.image || "/images/нет фото.jpg"}
+                                    alt={fav.name}
+                                    style={{
+                                      width: "150px",
+                                      height: "150px",
+                                      borderRadius: "10px",
+                                      objectFit: "contain",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                  <div>
+                                    <h3>{fav.name || "Без названия"}</h3>
+                                    <p>Адрес: г.{fav.city?.name || "Не указан"}, {fav.address}</p>
+                                    <button
+                                      onClick={() => removeFavorite(fav)}
+                                      style={{
+                                        padding: "5px 10px",
+                                        backgroundColor: "#f44336",
+                                        color: "#fff",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      Удалить из избранного
+                                    </button>
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div>
                     <Link className="addcategory" to="/addsubcategory">
@@ -133,7 +182,7 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      {/* Модальное окно для избранных */}
+      {/* Модальное окно для избранных
       {isFavoritesModalOpen && (
         <div className="modal-overlay-favorites" onClick={handleCloseFavoritesModal}>
           <div className="modal-content-favorites" onClick={(e) => e.stopPropagation()}>
@@ -181,7 +230,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      )}    
+      )}     */}
       <div className="content-container">
         <div className="content">
           {/* Передаем toggleFavorite, favorite в SubCategoryFilter */}
