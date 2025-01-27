@@ -6,11 +6,12 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import (
-    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
+    RegisterSerializer, SubcategorySerializer, CountrySerializer, RegionSerializer, CitySerializer, CategorySerializer, PasswordResetSerializer, PasswordResetConfirmSerializer, CustomTokenObtainPairSerializer
 )
 from .models import CustomUser, Subcategory, Country, Region, City, Category
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class PasswordResetRequestView(APIView):
@@ -36,6 +37,8 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = RegisterSerializer
 
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class LogoutView(generics.GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)

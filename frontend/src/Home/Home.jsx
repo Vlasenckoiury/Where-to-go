@@ -6,7 +6,7 @@ import SubCategoryFilter from "../category/SubcategoryList";
 import { useAuth } from "../components/AuthContext";
 
 const Home = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [favorites, setFavorites] = useState(() => {
     // Загружаем избранное из localStorage при первом рендере
     const savedFavorites = localStorage.getItem("favorites");
@@ -89,6 +89,9 @@ const Home = () => {
               </div>
               {isAuthenticated ? (
                 <li className="nav-item">
+                  <div className="welcome-message">
+                    Добро пожаловать, {user?.username}!
+                  </div>
                   <div className="favorites-link-container">
                     <button onClick={handleOpenFavoritesModal} className="favorites-link-button">
                       <p className="favorites-link">Избранное</p>

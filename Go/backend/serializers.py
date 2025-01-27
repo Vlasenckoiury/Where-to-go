@@ -1,5 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import CustomUser, City, Category, Subcategory, Region, Country
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.core.mail import send_mail
@@ -68,6 +69,16 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser  # Используем CustomUser вместо User
         fields = ('id', 'username', 'email')
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # Добавляем данные пользователя в ответ
+        data['user'] = {
+            'id': self.user.id,
+            'username': self.user.username,
+            'email': self.user.email,
+        }
+        return data
 
 class RegisterSerializer(serializers.ModelSerializer):
     captcha_token = serializers.CharField(write_only=True)

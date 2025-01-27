@@ -23,13 +23,15 @@ const Login = () => {
         password,
       });
 
+      console.log(response.data);
+
       // Сохраняем токены в localStorage
       localStorage.setItem("access_token", response.data.access);
       
       localStorage.setItem("refresh_token", response.data.refresh);
 
       // Обновляем состояние авторизации
-      login(response.data.access); // Передаем access token в метод login
+      login(response.data.access, response.data.user); // Передаем access token в метод login
 
       setSuccess("Вы успешно вошли!");
       // Перенаправляем на домашнюю страницу
