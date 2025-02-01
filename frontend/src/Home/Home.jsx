@@ -108,7 +108,7 @@ const Home = () => {
                           </div>
                           <div className="favorites-list">
                             {favorites.length === 0 ? (
-                              <p>Нет избранных карточек</p>
+                              <p style={{ textAlign: "center" }}>Нет избранных карточек</p>
                             ) : (
                               favorites.map((fav) => (
                                 <div key={fav.id} className="favorite-item">
@@ -182,55 +182,6 @@ const Home = () => {
           </div>
         </div>
       </nav>
-      {/* Модальное окно для избранных
-      {isFavoritesModalOpen && (
-        <div className="modal-overlay-favorites" onClick={handleCloseFavoritesModal}>
-          <div className="modal-content-favorites" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseFavoritesModal}>
-              ✖
-            </button>
-            <h2>Избранное</h2>
-            <div className="favorites-list">
-              {favorites.length === 0 ? (
-                <p>Нет избранных карточек</p>
-              ) : (
-                favorites.map((fav) => (
-                  <div key={fav.id} className="favorite-item">
-                    <img
-                      src={fav.image || "/images/нет фото.jpg"}
-                      alt={fav.name}
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        borderRadius: "10px",
-                        objectFit: "contain",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <div>
-                      <h3>{fav.name || "Без названия"}</h3>
-                      <p>Город: г.{fav.city?.name || "Не указан"}</p>
-                      <button
-                        onClick={() => removeFavorite(fav)}
-                        style={{
-                          padding: "5px 10px",
-                          backgroundColor: "#f44336",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        Удалить из избранного
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      )}     */}
       <div className="content-container">
         <div className="content">
           {/* Передаем toggleFavorite, favorite в SubCategoryFilter */}
